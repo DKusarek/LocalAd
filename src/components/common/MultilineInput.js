@@ -1,14 +1,12 @@
 import React from 'react';
 import { TextInput, View, Text } from 'react-native';
 
-const Input = ({ 
+const MultilineInput = ({ 
     label, 
     value, 
     onChangeText, 
     placeholder, 
-    secureTextEntry, 
-    multiline,
-    numberOfLines
+    secureTextEntry
  }) => { 
     const { inputStyle, labelStyle, containerStyle } = styles;
 
@@ -23,8 +21,8 @@ const Input = ({
                 onChangeText={onChangeText}
                 underlineColorAndroid='transparent'
                 style={inputStyle} 
-                multiline={multiline}
-                numberOfLines={numberOfLines}
+                multiline
+                numberOfLines={3}
             />
         </View>
     );
@@ -45,11 +43,11 @@ const styles = {
         flex: 1
     },
     containerStyle: {
-        height: 80,
+        height: 100,
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-between'
     }
 };
 
-export { Input };
+export { MultilineInput };

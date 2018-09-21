@@ -3,3 +3,4 @@ export * from './Panel';
 export * from './PanelSection';
 export * from './Input';
 export * from './Spinner';
+export * from './MultilineInput';

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { Panel, PanelSection, Input, Button, Spinner } from './common';
-import { emailChanged, passwordChanged, loginUser } from '../actions';
+import { emailChanged, passwordChanged, loginUser, signInUser } from '../actions';
 
 class LoginForm extends Component {
     onEmailChange(text) {
@@ -13,11 +13,15 @@ class LoginForm extends Component {
         this.props.passwordChanged(text);
     }
 
-    onButtonPress() {
+    onLogInButtonPress() {
         const { email, password } = this.props;
         this.props.loginUser({ email, password });
     }
 
+    onSignInButtonPress() {
+        const { email, password } = this.props;
+        this.props.signInUser({ email, password });
+    }
     renderError() {
         if (this.props.error) {
             return (
@@ -30,21 +34,47 @@ class LoginForm extends Component {
         }
     }
 
-    renderButton() {
-        if (this.props.loading) {
+    renderSuccessSignIn() {
+        if (this.props.signInSuccess) {
+            return (
+                <View style={{ backgroundColor: 'white' }}>
+                    <Text style={styles.signInSuccessTextStyle}>
+                        {this.props.signInSuccess}
+                    </Text>
+                </View>
+            );
+        }
+    }
+
+    renderButtonLogIn() {
+        if (this.props.loadingLogin) {
             return (
                 <Spinner size="large" />
             );
         } 
         return (
-            <Button onPress={this.onButtonPress.bind(this)}>
+            <Button onPress={this.onLogInButtonPress.bind(this)}>
                 Log in
+            </Button>
+        );        
+    }
+
+    renderButtonSignIn() {
+        if (this.props.loadingSignIn) {
+            return (
+                <Spinner size="large" />
+            );
+        } 
+        return (
+            <Button onPress={this.onSignInButtonPress.bind(this)}>
+                Sign in
             </Button>
         );        
     }
     
     render() {
         return (
+            <View>
             <Panel>
                 <PanelSection>
                     <Input 
@@ -64,10 +94,27 @@ class LoginForm extends Component {
                     />
                 </PanelSection>
                 {this.renderError()}
+                {this.renderSuccessSignIn()}
                 <PanelSection>
-                    {this.renderButton()} 
+                    {this.renderButtonLogIn()} 
+                </PanelSection>
+                <PanelSection>
+                    {this.renderButtonSignIn()} 
                 </PanelSection>
             </Panel>
+                <Panel style={{ flex: 1 }}>
+                    <PanelSection>
+                        <Text style={styles.textStyle}>
+                            If you only wishing to look through adds please
+                        </Text>
+                        </PanelSection>
+                        <PanelSection>
+                        <Button style={styles.buttonStyle}>
+                            Continue as guest
+                        </Button>
+                    </PanelSection>
+                 </Panel>
+                 </View>
         );
     }
 }
@@ -76,21 +123,37 @@ const styles = {
     errorTextStyle: {
         fontSize: 20, 
         alignSelf: 'center',
-        color: 'red'
+        color: 'red',
+        textAlign: 'center'
+    },
+    signInSuccessTextStyle: {
+        fontSize: 20, 
+        alignSelf: 'center',
+        color: 'green',
+        textAlign: 'center'
+    },
+    textStyle: {
+        fontSize: 18,
+        paddingLeft: 20,
+        flex: 1,
+        textAlign: 'center'
     }
 };
 
 const mapStateToProps = (state) => {
-    const { email, password, error, loading } = state.authorization;
+    const { email, password, error, signInSuccess, loadingLogin, loadingSignIn } = 
+    state.authorization;
     return {
         email,
         password,
         error,
-        loading
+        signInSuccess,
+        loadingLogin,
+        loadingSignIn
     };
 };
 
 export default connect(mapStateToProps, { 
-    emailChanged, passwordChanged, loginUser 
+    emailChanged, passwordChanged, loginUser, signInUser
 })(LoginForm);
 
