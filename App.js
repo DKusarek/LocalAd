@@ -8,6 +8,10 @@ import Router from './src/Router';
 
 export default class App extends Component {
   componentWillMount() {
+    console.ignoredYellowBox = [
+      'Setting a timer'
+  ];
+  
     firebase.initializeApp({
       apiKey: 'AIzaSyCiSq5R0aWAG9lfBz5iYSQSMohv9Z2MDbM',
       authDomain: 'localad-53d66.firebaseapp.com',

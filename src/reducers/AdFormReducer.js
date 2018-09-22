@@ -6,7 +6,7 @@ import {
 const INITIAL_STATE = { 
     title: '',
     description: '',
-    category: 'Services And Companies'
+    category: ''
  };
 
  export default (state = INITIAL_STATE, action) => {
