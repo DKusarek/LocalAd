@@ -1,12 +1,30 @@
 import React, { Component } from 'react';
-import { View, Text, Picker } from 'react-native';
+import { View, Image, Text, Picker } from 'react-native';
 import { connect } from 'react-redux';
+import { ImagePicker } from 'expo';
 import { adUpdate } from '../actions';
 import { Button, Input, MultilineInput, Panel, PanelSection } from './common';
 
 class AdForm extends Component {
+    state = {
+        image: null,
+      };
+
+    pickImage = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+          allowsEditing: true,
+          aspect: [4, 3],
+        });
     
+        console.log(result);
+    
+        if (!result.cancelled) {
+          this.setState({ image: result.uri });
+        }
+      };
+
     render() {
+        const { image } = this.state;
         const { labelTextStyle, pickerStyle } = styles;
     
         return (
@@ -61,9 +79,11 @@ class AdForm extends Component {
                     </Button>
                 </PanelSection>                
                 <PanelSection>
-                    <Button>
-                        Add Picture
+                    <Button onPress={this.pickImage}>
+                        Add picture 
                     </Button>
+                    {image &&
+          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
                 </PanelSection>
             </Panel>
         );
@@ -79,6 +99,17 @@ const styles = {
         flex: 1,
         paddingLeft: 80,        
         justifyContent: 'flex-start'
+    }
+  };
+
+const options = {
+    title: 'Select Avatar',
+    customButtons: [
+      {name: 'fb', title: 'Choose Photo from Facebook'},
+    ],
+    storageOptions: {
+      skipBackup: true,
+      path: 'images'
     }
   };
 
