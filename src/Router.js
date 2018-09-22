@@ -5,6 +5,7 @@ import AdList from './components/AdList';
 import UserMenu from './components/UserMenu';
 import AdForm from './components/AdForm';
 import AdCreate from './components/AdCreate';
+import PicturePanel from './components/AddPicturePanel/PicturePanel';
 
 const RouterComponent = () => {
     const { menuButtonStyle, chatButtonStyle, navigationStyle, mainTitleStyle } = styles;
@@ -12,16 +13,15 @@ const RouterComponent = () => {
     return (
         <Router sceneStyle={{ backgroundColor: '#e8f6fd' }}>
             <Scene key="root" hideNavBar>
-                <Scene key="auth">
+                {/* <Scene key="auth">
                     <Scene 
                         key="login" 
                         component={LoginForm} 
                         title="Local Ad" 
-                        initial
                         navigationBarStyle={navigationStyle}
                         titleStyle={mainTitleStyle}
                     />
-                </Scene>
+                </Scene> */}
                 <Scene key="main">
                     <Scene 
                         key="adList"
@@ -51,6 +51,13 @@ const RouterComponent = () => {
                         component={AdCreate}
                         navigationBarStyle={navigationStyle}
                         navBarButtonColor='#fff'
+                    />
+                    <Scene
+                        key="picturePanel"
+                        component={PicturePanel}
+                        navigationBarStyle={navigationStyle}
+                        navBarButtonColor='#fff'
+                        initial
                     />
                 </Scene>                
             </Scene>
