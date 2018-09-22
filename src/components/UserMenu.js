@@ -4,7 +4,7 @@ import { Button, Panel, PanelSection } from './common';
 
 class UserMenu extends Component {
     onAddNewPress() {
-        Actions.adForm();
+        Actions.adCreate();
     }
     
     render() {

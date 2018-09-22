@@ -5,3 +5,6 @@ export const AUTH_USER_FAILED = 'auth_user_failed';
 export const LOGIN_USER = 'login_user';
 export const SIGN_IN_USER = 'sign_in_user';
 export const SIGN_IN_USER_SUCCESS = 'sign_in_user_access';
+
+export const AD_UPDATE = 'add_update';
+export const AD_CREATE = 'add_create';

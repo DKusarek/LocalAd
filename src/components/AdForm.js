@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Picker } from 'react-native';
+import { connect } from 'react-redux';
+import { adUpdate } from '../actions';
 import { Button, Input, MultilineInput, Panel, PanelSection } from './common';
 
 class AdForm extends Component {
@@ -12,11 +14,19 @@ class AdForm extends Component {
                 <PanelSection>
                     <Input
                         label="Title"
+                        value={this.props.title}
+                        onChangeText={
+                            value => this.props.adUpdate({ prop: 'title', value })
+                        }
                     />
                 </PanelSection>
                 <PanelSection>
                     <MultilineInput
                         label="Decription"
+                        value={this.props.description}
+                        onChangeText={
+                            value => this.props.adUpdate({ prop: 'description', value })
+                        }
                     />
                 </PanelSection>
                 <PanelSection>
@@ -25,8 +35,10 @@ class AdForm extends Component {
                     </Text>
                     <View style={pickerStyle}>
                         <Picker
-                            selectedValue={''}
-                            onValueChange={() => {}}                         
+                            selectedValue={this.props.category}
+                            onValueChange={
+                                value => this.props.adUpdate({ prop: 'category', value })
+                            }                         
                         >                    
                             <Picker.Item label="Services And Companies" value="0" />
                             <Picker.Item label="Fashion" value="1" />
@@ -53,11 +65,6 @@ class AdForm extends Component {
                         Add Picture
                     </Button>
                 </PanelSection>
-                <PanelSection>
-                    <Button>
-                        Publish Add
-                    </Button>
-                </PanelSection>
             </Panel>
         );
     }
@@ -75,5 +82,10 @@ const styles = {
     }
   };
 
+const mapStateToProps = (state) => {
+    const { title, description, category } = state.adForm;
+    return { title, description, category };
+};
 
-export default AdForm;
+
+export default connect(mapStateToProps, { adUpdate })(AdForm);
