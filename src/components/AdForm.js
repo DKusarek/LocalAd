@@ -1,30 +1,12 @@
 import React, { Component } from 'react';
-import { View, Image, Text, Picker } from 'react-native';
+import { View, Text, Picker } from 'react-native';
 import { connect } from 'react-redux';
-import { ImagePicker } from 'expo';
+import { Actions } from 'react-native-router-flux';
 import { adUpdate } from '../actions';
 import { Button, Input, MultilineInput, Panel, PanelSection } from './common';
 
 class AdForm extends Component {
-    state = {
-        image: null,
-      };
-
-    pickImage = async () => {
-        const result = await ImagePicker.launchImageLibraryAsync({
-          allowsEditing: true,
-          aspect: [4, 3],
-        });
-    
-        console.log(result);
-    
-        if (!result.cancelled) {
-          this.setState({ image: result.uri });
-        }
-      };
-
     render() {
-        const { image } = this.state;
         const { labelTextStyle, pickerStyle } = styles;
     
         return (
@@ -79,11 +61,10 @@ class AdForm extends Component {
                     </Button>
                 </PanelSection>                
                 <PanelSection>
-                    <Button onPress={this.pickImage}>
+                    <Button onPress={() => Actions.picturePanel()}>
                         Add picture 
                     </Button>
-                    {image &&
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+                   
                 </PanelSection>
             </Panel>
         );
@@ -104,8 +85,8 @@ const styles = {
 
 
 const mapStateToProps = (state) => {
-    const { title, description, category } = state.adForm;
-    return { title, description, category };
+    const { title, description, category, image } = state.adForm;
+    return { title, description, category, image };
 };
 
 

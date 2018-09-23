@@ -13,15 +13,16 @@ const RouterComponent = () => {
     return (
         <Router sceneStyle={{ backgroundColor: '#e8f6fd' }}>
             <Scene key="root" hideNavBar>
-                {/* <Scene key="auth">
+                <Scene key="auth">
                     <Scene 
                         key="login" 
                         component={LoginForm} 
                         title="Local Ad" 
+                        initial
                         navigationBarStyle={navigationStyle}
                         titleStyle={mainTitleStyle}
                     />
-                </Scene> */}
+                </Scene>
                 <Scene key="main">
                     <Scene 
                         key="adList"
@@ -57,7 +58,6 @@ const RouterComponent = () => {
                         component={PicturePanel}
                         navigationBarStyle={navigationStyle}
                         navBarButtonColor='#fff'
-                        initial
                     />
                 </Scene>                
             </Scene>

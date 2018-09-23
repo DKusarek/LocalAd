@@ -3,26 +3,22 @@ import { Image } from 'react-native';
 import { connect } from 'react-redux';
 import { ImagePicker } from 'expo';
 import { Button, Panel, PanelSection } from './../common';
-
+import { addPicture } from '../../actions';
 
 class PicturePanel extends Component {
-    state = { image: null, };
-
     pickImage = async () => {
         const result = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
             aspect: [4, 3],
         });
     
-        console.log(result);
-    
         if (!result.cancelled) {
-            this.setState({ image: result.uri });
+            this.props.addPicture({ image: result.uri });            
         }
     };
     render() {
-        const { image } = this.state;
-        
+        const { image } = this.props;
+
         return (
             <Panel>
                 <PanelSection>
@@ -44,4 +40,9 @@ class PicturePanel extends Component {
     }
 }
 
-export default PicturePanel;
+const mapStateToProps = (state) => {
+    const { image } = state.adForm;
+    return { image };
+};
+
+export default connect(mapStateToProps, { addPicture })(PicturePanel);
