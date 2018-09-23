@@ -3,7 +3,8 @@ import { Actions } from 'react-native-router-flux';
 import { 
     AD_UPDATE,
     AD_CREATE,
-    AD_ADD_PICTURE
+    AD_ADD_PICTURE,
+    ADS_FETCH_SUCCESS
  } from './types';
 
 export const adUpdate = ({ prop, value }) => {
@@ -43,3 +44,12 @@ export const addPicture = ({ image }) => {
     };
 };
 
+export const adsFetch = () => {
+    const { currentUser } = firebase.auth();
+    return (dispatch) => {
+        firebase.database().ref(`/users/${currentUser.uid}/ads`)
+        .on('value', snapshot => {
+            dispatch({ type: ADS_FETCH_SUCCESS, payload: snapshot.val() });
+        });
+    };
+};
