@@ -18,7 +18,7 @@ export const adCreate = ({ title, description, category, image }) => {
     const uploadImage = async(uri) => {
         const response = await fetch(uri);
         const blob = await response.blob();
-        const ref = firebase.storage().ref().child('images/testimage');
+        const ref = firebase.storage().ref().child(`images/${currentUser.uid}/${title}`);
         return ref.put(blob);
     };
 
@@ -28,7 +28,7 @@ export const adCreate = ({ title, description, category, image }) => {
             .then(() => console.log('success'))
             .catch((error) => console.log(error.message));    
         firebase.database().ref(`/users/${currentUser.uid}/ads`)
-        .push({ title, description, category })
+        .push({ title, description, category, image })
         .then(() => {            
             dispatch({ type: AD_CREATE });
             Actions.adList();
