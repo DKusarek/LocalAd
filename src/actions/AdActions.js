@@ -4,7 +4,8 @@ import {
     AD_UPDATE,
     AD_CREATE,
     AD_ADD_PICTURE,
-    ADS_FETCH_SUCCESS
+    ADS_FETCH_SUCCESS,
+    ADS_FETCH_PICTURE_SUCCESS
  } from './types';
 
 export const adUpdate = ({ prop, value }) => {
@@ -51,5 +52,18 @@ export const adsFetch = () => {
         .on('value', snapshot => {
             dispatch({ type: ADS_FETCH_SUCCESS, payload: snapshot.val() });
         });
+    };
+};
+
+export const getPicture = (title) => {
+    const { currentUser } = firebase.auth();
+    return (dispatch) => {
+        const ref = firebase.storage().ref()
+        .child(`images/${currentUser.uid}/${title}`);
+        ref.getDownloadURL()
+        .then((url) => {
+           dispatch({ type: ADS_FETCH_PICTURE_SUCCESS, payload: url });
+        })
+        .catch((error) => console.log(error.message));
     };
 };

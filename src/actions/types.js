@@ -10,3 +10,5 @@ export const AD_UPDATE = 'ad_update';
 export const AD_CREATE = 'ad_create';
 export const AD_ADD_PICTURE = 'ad_add_picture';
 export const ADS_FETCH_SUCCESS = 'ads_fetch_success';
+export const ADS_FETCH_PICTURE_SUCCESS = 'ads_fetch_picture_success';
+

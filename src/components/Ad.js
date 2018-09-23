@@ -1,10 +1,25 @@
 import React, { Component } from 'react';
 import { Text, Image } from 'react-native';
+import { connect } from 'react-redux';
+import { getPicture } from '../actions';
 import { Panel, PanelSection } from './common';
 
 class Ad extends Component {
+    componentWillMount() {
+       this.props.getPicture(this.props.ad.title);
+    }
+
+    renderImage() {
+        console.log(this.props);
+        if (this.props.image) {
+            return (
+                <Image source={{ uri: this.props.image }} style={{ width: 200, height: 200 }} />
+            );
+        }  
+    }
+
     render() {
-        const { title, description, category, image } = this.props.ad;
+        const { title, description, category } = this.props.ad;
         
         return (
                 <Panel>
@@ -19,8 +34,7 @@ class Ad extends Component {
                         </Text>
                     </PanelSection>
                     <PanelSection>
-                    {image &&
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+                        {this.renderImage()}                    
                         <Text style={styles.titleStyle}>
                             {description}
                         </Text>
@@ -33,8 +47,15 @@ class Ad extends Component {
 const styles = {
     titleStyle: {
         fontSize: 18, 
+        fontWeight: 'bold',
         paddingLeft: 15
     }
 };
 
-export default Ad;
+const mapStateToProps = (state) => {
+    const { image } = state.picture;
+    console.log(image);
+    return { image };
+};
+
+export default connect(mapStateToProps, { getPicture })(Ad);

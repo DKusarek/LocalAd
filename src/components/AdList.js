@@ -2,13 +2,12 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { ListView } from 'react-native';
 import { connect } from 'react-redux';
-import { adsFetch } from '../actions';
+import { adsFetch, } from '../actions';
 import Ad from './Ad';
 
 class AdList extends Component {
     componentWillMount() {
         this.props.adsFetch();
-
         this.createDataSource(this.props);
     }
 
