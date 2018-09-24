@@ -4,8 +4,13 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { adUpdate } from '../actions';
 import { Button, Input, MultilineInput, Panel, PanelSection } from './common';
+import TagInput from './Tag/TagInput';
 
 class AdForm extends Component {
+    getTags() {
+        console.log(this.props);
+    }
+
     render() {
         const { labelTextStyle, pickerStyle } = styles;
     
@@ -40,24 +45,20 @@ class AdForm extends Component {
                                 value => this.props.adUpdate({ prop: 'category', value })
                             }                         
                         >                    
-                            <Picker.Item label="Services And Companies" value="0" />
-                            <Picker.Item label="Fashion" value="1" />
-                            <Picker.Item label="Sport And Hobby" value="2" />
-                            <Picker.Item label="Electronics" value="3" />
-                            <Picker.Item label="Automotive" value="4" />
-                            <Picker.Item label="Home And Garden" value="5" />
-                            <Picker.Item label="Pets" value="6" />
+                            <Picker.Item label="Services And Companies" value="Services And Companies" />
+                            <Picker.Item label="Fashion" value="Fashion" />
+                            <Picker.Item label="Sport And Hobby" value="Sport And Hobby" />
+                            <Picker.Item label="Electronics" value="Electronics" />
+                            <Picker.Item label="Automotive" value="Automotive" />
+                            <Picker.Item label="Home And Garden" value="Home And Garden" />
+                            <Picker.Item label="Pets" value="Pets" />
                         </Picker>
                     </View>
                 </PanelSection>
-                <PanelSection>
-                    <Text style={labelTextStyle}>
-                        Tags
-                    </Text>
-                </PanelSection>
+                <TagInput />
                 <PanelSection>
                     <Button>
-                        Localization
+                        Location
                     </Button>
                 </PanelSection>                
                 <PanelSection>
@@ -85,8 +86,9 @@ const styles = {
 
 
 const mapStateToProps = (state) => {
-    const { title, description, category, image } = state.adForm;
-    return { title, description, category, image };
+    const { title, description, category, image, tags } = state.adForm;
+    console.log(tags);
+    return { title, description, category, image, tags };
 };
 
 

@@ -5,7 +5,9 @@ import {
     AD_CREATE,
     AD_ADD_PICTURE,
     ADS_FETCH_SUCCESS,
-    ADS_FETCH_PICTURE_SUCCESS
+    ADS_FETCH_PICTURE_SUCCESS,
+    AD_TAG_ADD,
+    AD_TAG_DELETE
  } from './types';
 
 export const adUpdate = ({ prop, value }) => {
@@ -67,3 +69,18 @@ export const getPicture = (title) => {
         .catch((error) => console.log(error.message));
     };
 };
+
+export const adTagAdd = (tagName) => {
+    return {
+        type: AD_TAG_ADD,
+        payload: tagName
+    };
+};
+
+export const adTagDelete = (tagName) => {
+    return {
+        type: AD_TAG_DELETE,
+        payload: tagName
+    };
+};
+

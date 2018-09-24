@@ -11,4 +11,9 @@ export const AD_CREATE = 'ad_create';
 export const AD_ADD_PICTURE = 'ad_add_picture';
 export const ADS_FETCH_SUCCESS = 'ads_fetch_success';
 export const ADS_FETCH_PICTURE_SUCCESS = 'ads_fetch_picture_success';
+export const AD_TAG_ADD = 'ad_tag_add';
+export const AD_TAG_DELETE = 'ad_tag_delete';
 
+export const TAG_ADD = 'tag_add';
+export const TAG_NAME_CHANGED = 'tag_name_changed';
+export const TAG_DELETE = 'tag_delete';

@@ -1,14 +1,17 @@
 import { 
     AD_UPDATE,
     AD_CREATE,
-    AD_ADD_PICTURE
+    AD_ADD_PICTURE,
+    AD_TAG_ADD,
+    AD_TAG_DELETE
 } from '../actions/types';
 
 const INITIAL_STATE = { 
     title: '',
     description: '',
     category: '',
-    image: null
+    image: null,
+    tags: []
  };
 
  export default (state = INITIAL_STATE, action) => {
@@ -20,6 +23,16 @@ const INITIAL_STATE = {
             return INITIAL_STATE;
         case AD_ADD_PICTURE:
             return { ...state, image: action.payload };
+        case AD_TAG_ADD:
+            if (state.tags.indexOf(action.payload) === -1) {
+                state.tags.push(action.payload);
+            }
+            return { ...state };
+        case AD_TAG_DELETE:
+            if (state.tags.indexOf(action.payload) > -1) {
+                state.tags.splice(state.tags.indexOf(action.payload), 1);
+            }
+            return { ...state };
         default:
             return state;
     }

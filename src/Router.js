@@ -6,6 +6,8 @@ import UserMenu from './components/UserMenu';
 import AdForm from './components/AdForm';
 import AdCreate from './components/AdCreate';
 import PicturePanel from './components/AddPicturePanel/PicturePanel';
+import TagInput from './components/Tag/TagInput';
+import LocationPanel from './components/LocationPanel/LocationPanel';
 
 const RouterComponent = () => {
     const { menuButtonStyle, chatButtonStyle, navigationStyle, mainTitleStyle } = styles;
@@ -13,7 +15,7 @@ const RouterComponent = () => {
     return (
         <Router sceneStyle={{ backgroundColor: '#e8f6fd' }}>
             <Scene key="root" hideNavBar>
-                <Scene key="auth">
+                {/* <Scene key="auth">
                     <Scene 
                         key="login" 
                         component={LoginForm} 
@@ -22,7 +24,7 @@ const RouterComponent = () => {
                         navigationBarStyle={navigationStyle}
                         titleStyle={mainTitleStyle}
                     />
-                </Scene>
+                </Scene> */}
                 <Scene key="main">
                     <Scene 
                         key="adList"
@@ -56,6 +58,19 @@ const RouterComponent = () => {
                     <Scene
                         key="picturePanel"
                         component={PicturePanel}
+                        navigationBarStyle={navigationStyle}
+                        navBarButtonColor='#fff'
+                    />
+                    <Scene
+                        key="tagInput"
+                        component={TagInput}
+                        navigationBarStyle={navigationStyle}
+                        navBarButtonColor='#fff'
+                    />
+                    <Scene 
+                        key="locationPanel"
+                        component={LocationPanel}
+                        initial
                         navigationBarStyle={navigationStyle}
                         navBarButtonColor='#fff'
                     />

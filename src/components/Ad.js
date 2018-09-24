@@ -48,13 +48,13 @@ const styles = {
     titleStyle: {
         fontSize: 18, 
         fontWeight: 'bold',
-        paddingLeft: 15
+        paddingLeft: 15,
+        
     }
 };
 
 const mapStateToProps = (state) => {
     const { image } = state.picture;
-    console.log(image);
     return { image };
 };
 
