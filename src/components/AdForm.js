@@ -15,7 +15,7 @@ class AdForm extends Component {
         const { labelTextStyle, pickerStyle } = styles;
     
         return (
-            <Panel>
+            <View>
                 <PanelSection>
                     <Input
                         label="Title"
@@ -67,7 +67,7 @@ class AdForm extends Component {
                     </Button>
                    
                 </PanelSection>
-            </Panel>
+            </View>
         );
     }
 }

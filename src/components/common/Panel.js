@@ -1,10 +1,10 @@
 import React from 'react';
-import { View } from 'react-native';
+import { ScrollView } from 'react-native';
 
 const Panel = (props) => (
-        <View style={styles.containerStyle}>
+        <ScrollView style={styles.containerStyle}>
             {props.children}
-        </View>
+        </ScrollView>
     );
 
 const styles = {

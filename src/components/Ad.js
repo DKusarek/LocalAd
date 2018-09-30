@@ -9,31 +9,7 @@ class Ad extends Component {
         this.props.getPicture(this.props.ad.title);
     }
 
-    findObjectByKey (array, key, value) {
-        for (var i = 0; i < array.length; i++) {
-            if (array[i][key] === value) {
-                return array[i];
-            }
-        }
-        return null;
-    }
-    componentWillReceiveProps(nextProps) {
-        this.renderImage(nextProps);
-    }
-
-    renderImage(nextProps) {
-        if (nextProps !== undefined) {
-            console.log(nextProps.image);
-            if (nextProps.image) {
-                const obj = this.findObjectByKey(nextProps.image, 'title', nextProps.ad.title);
-                if (obj != null) {
-                return (
-                <Image source={{ uri: obj.url }} style={{ width: 200, height: 200 }} />
-                );
-                }
-        }  
-    }
-        
+    renderImage() {   
         if (this.props.image) {
             const obj = this.props.image.find((image) => { return image.title === this.props.ad.title; });
             if (obj != null) {

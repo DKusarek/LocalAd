@@ -27,10 +27,15 @@ export const adCreate = ({ title, description, category, image }) => {
     };
 
     return (dispatch) => { 
+        const today = new Date();
+        const publishDate = today.getDate() + '/' 
+        + (today.getMonth() + 1) + '/' 
+        + today.getFullYear();
+        console.log(publishDate);
         uploadImage(image)
             .then(() => {
                 firebase.database().ref(`/users/${currentUser.uid}/ads`)
-                .push({ title, description, category, image })
+                .push({ title, description, category, image, publishDate })
                 .then(() => {            
                     dispatch({ type: AD_CREATE });
                     Actions.adList();

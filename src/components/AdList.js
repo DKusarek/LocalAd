@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { ListView } from 'react-native';
+import { View, ListView } from 'react-native';
 import { connect } from 'react-redux';
 import { adsFetch, } from '../actions';
 import Ad from './Ad';
@@ -33,11 +33,14 @@ class AdList extends Component {
 
     render() {
         return (
-            <ListView
-                enableEmptySections
-                dataSource={this.dataSource}
-                renderRow={this.renderRow}
-            />
+            <View>
+                
+                <ListView
+                    enableEmptySections
+                    dataSource={this.dataSource}
+                    renderRow={this.renderRow}
+                />
+            </View>
         );
     }
 }
