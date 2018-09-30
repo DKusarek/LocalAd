@@ -9,7 +9,7 @@ class Ad extends Component {
         this.props.getPicture(this.props.ad.title);
     }
 
-    findObjectByKey(array, key, value) {
+    findObjectByKey (array, key, value) {
         for (var i = 0; i < array.length; i++) {
             if (array[i][key] === value) {
                 return array[i];
@@ -17,11 +17,25 @@ class Ad extends Component {
         }
         return null;
     }
+    componentWillReceiveProps(nextProps) {
+        this.renderImage(nextProps);
+    }
 
-    renderImage() {
-        console.log(this.props);
+    renderImage(nextProps) {
+        if (nextProps !== undefined) {
+            console.log(nextProps.image);
+            if (nextProps.image) {
+                const obj = this.findObjectByKey(nextProps.image, 'title', nextProps.ad.title);
+                if (obj != null) {
+                return (
+                <Image source={{ uri: obj.url }} style={{ width: 200, height: 200 }} />
+                );
+                }
+        }  
+    }
+        
         if (this.props.image) {
-            const obj = this.findObjectByKey(this.props.image, 'title', this.props.ad.title);
+            const obj = this.props.image.find((image) => { return image.title === this.props.ad.title; });
             if (obj != null) {
             return (
                <Image source={{ uri: obj.url }} style={{ width: 200, height: 200 }} />

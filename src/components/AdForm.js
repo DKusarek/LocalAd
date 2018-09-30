@@ -8,7 +8,7 @@ import TagInput from './Tag/TagInput';
 
 class AdForm extends Component {
     getTags() {
-        console.log(this.props);
+       // console.log(this.props);
     }
 
     render() {
@@ -87,7 +87,7 @@ const styles = {
 
 const mapStateToProps = (state) => {
     const { title, description, category, image, tags } = state.adForm;
-    console.log(tags);
+    //console.log(tags);
     return { title, description, category, image, tags };
 };
 

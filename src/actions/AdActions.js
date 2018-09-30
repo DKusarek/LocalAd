@@ -27,17 +27,17 @@ export const adCreate = ({ title, description, category, image }) => {
     };
 
     return (dispatch) => { 
-        console.log(image); 
         uploadImage(image)
-            .then(() => console.log('success'))
+            .then(() => {
+                firebase.database().ref(`/users/${currentUser.uid}/ads`)
+                .push({ title, description, category, image })
+                .then(() => {            
+                    dispatch({ type: AD_CREATE });
+                    Actions.adList();
+                });
+            })
             .catch((error) => console.log(error.message));    
-        firebase.database().ref(`/users/${currentUser.uid}/ads`)
-        .push({ title, description, category, image })
-        .then(() => {            
-            dispatch({ type: AD_CREATE });
-            Actions.adList();
-        });
-    };
+        };
 };
 
 export const addPicture = ({ image }) => {
