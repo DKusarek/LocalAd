@@ -64,7 +64,7 @@ export const getPicture = (title) => {
         .child(`images/${currentUser.uid}/${title}`);
         ref.getDownloadURL()
         .then((url) => {
-           dispatch({ type: ADS_FETCH_PICTURE_SUCCESS, payload: url });
+           dispatch({ type: ADS_FETCH_PICTURE_SUCCESS, payload: { url, title } });
         })
         .catch((error) => console.log(error.message));
     };

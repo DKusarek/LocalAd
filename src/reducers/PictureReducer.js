@@ -4,13 +4,14 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-    image: null
+    image: []
 };
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case ADS_FETCH_PICTURE_SUCCESS:
-            return { ...state, image: action.payload };
+        state.image.push(action.payload);
+            return { ...state };
         default:
             return state;
     }

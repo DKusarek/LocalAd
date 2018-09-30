@@ -6,15 +6,27 @@ import { Panel, PanelSection } from './common';
 
 class Ad extends Component {
     componentWillMount() {
-       this.props.getPicture(this.props.ad.title);
+        this.props.getPicture(this.props.ad.title);
+    }
+
+    findObjectByKey(array, key, value) {
+        for (var i = 0; i < array.length; i++) {
+            if (array[i][key] === value) {
+                return array[i];
+            }
+        }
+        return null;
     }
 
     renderImage() {
         console.log(this.props);
         if (this.props.image) {
+            const obj = this.findObjectByKey(this.props.image, 'title', this.props.ad.title);
+            if (obj != null) {
             return (
-                <Image source={{ uri: this.props.image }} style={{ width: 200, height: 200 }} />
+               <Image source={{ uri: obj.url }} style={{ width: 200, height: 200 }} />
             );
+            }
         }  
     }
 
