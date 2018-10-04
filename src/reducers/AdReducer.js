@@ -5,16 +5,16 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-    
+    ads: {},
+    originalAds: {}
 };
 
 export default (state = INITIAL_STATE, action) => {
-    console.log(action.payload);
     switch (action.type) {
         case ADS_FETCH_SUCCESS:
-            return action.payload;
+            return { ads: action.payload, originalAds: action.payload };
         case ADS_CHANGED_ORDER:
-            return action.payload;
+            return { ...state, ads: action.payload };
         default:
             return state;
     }

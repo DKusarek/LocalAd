@@ -3,7 +3,13 @@ import React, { Component } from 'react';
 import { SearchBar } from 'react-native-elements';
 import { Picker, View, ListView } from 'react-native';
 import { connect } from 'react-redux';
-import { adsFetch, sortByChanged, adsChangedOrder, showCategoryPanel } from '../actions';
+import { 
+    adsFetch, 
+    sortByChanged, 
+    adsChangedOrder, 
+    showCategoryPanel,
+    sortByCategoryChanged
+} from '../actions';
 import Ad from './Ad';
 import { CategoryPanel } from './common';
 
@@ -13,6 +19,9 @@ class AdList extends Component {
         this.createDataSource(this.props);
     }
     componentWillReceiveProps(nextProps) {
+        if (this.props.selectedCategory !== nextProps.selectedCategory) {
+            this.showOnlyFromCategory(nextProps.selectedCategory);
+        }
         this.createDataSource(nextProps);
     }
 
@@ -26,8 +35,6 @@ class AdList extends Component {
                 this.props.adsChangedOrder(this.sortArrayDesc(this.props.ads));
                 break;
             case 'Newest':
-            console.log(this.sortFromNewest(this.props.ads));
-            console.log(this.sortFromOldest(this.props.ads));
                 this.props.adsChangedOrder(this.sortFromNewest(this.props.ads));
                 break;
             case 'Oldest':
@@ -41,38 +48,50 @@ class AdList extends Component {
         }
     }
 
+    onCategoryPanelChange(value) {
+        this.props.sortByCategoryChanged(value);
+    }
+
     sortFromNewest(array) {
         return array.sort((a, b) => {
           return b.publishDate < a.publishDate ? -1
                : b.publishDate > a.publishDate ? 1
-               : 0
+               : 0;
         });
-      }
+    }
 
-      sortFromOldest(array) {
-        return array.sort((a, b) => {
-          return b.publishDate > a.publishDate ? -1
-               : b.publishDate < a.publishDate ? 1
-               : 0
+    sortFromOldest(array) {
+    return array.sort((a, b) => {
+        return b.publishDate > a.publishDate ? -1
+            : b.publishDate < a.publishDate ? 1
+            : 0;
         });
-      }
+    }
 
     sortArrayAsc(array) {
-        return array.sort((a, b) => {
-          return b.title > a.title ? -1
-               : b.title < a.title ? 1
-               : 0
+    return array.sort((a, b) => {
+        return b.title > a.title ? -1
+            : b.title < a.title ? 1
+            : 0;
         });
-      }
+    }
 
-      sortArrayDesc(array) {
-        return array.sort((a, b) => {
-          return b.title < a.title ? -1
-               : b.title > a.title ? 1
-               : 0
+    sortArrayDesc(array) {
+    return array.sort((a, b) => {
+        return b.title < a.title ? -1
+            : b.title > a.title ? 1
+            : 0;
         });
-      }    
-        
+    }     
+      
+    showOnlyFromCategory(category) {
+        if (category !== '') {
+            this.props.adsChangedOrder(this.props.originalAds.filter((ad) => ad.category === category));
+        } else {
+            this.props.adsChangedOrder(this.props.originalAds);
+        }
+    }
+
     createDataSource({ ads }) {
         const ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
@@ -93,7 +112,14 @@ class AdList extends Component {
         if (this.props.categoryPanel) {
             return (
                 <CategoryPanel 
-                    
+                    onChangeServicesAndCompanies={this.onCategoryPanelChange.bind(this, 'Services And Companies')}
+                    onChangeFashion={this.onCategoryPanelChange.bind(this, 'Fashion')}
+                    onChangeSportAndHobby={this.onCategoryPanelChange.bind(this, 'Sport And Hobby')}
+                    onChangeElectronics={this.onCategoryPanelChange.bind(this, 'Electronics')}
+                    onChangeAutomotive={this.onCategoryPanelChange.bind(this, 'Automotive')}
+                    onChangeHomeAndGarden={this.onCategoryPanelChange.bind(this, 'Home And Garden')}
+                    onChangePets={this.onCategoryPanelChange.bind(this, 'Pets')}
+                    onChangeAll={this.onCategoryPanelChange.bind(this, '')}
                 />
             );
         }
@@ -106,7 +132,7 @@ class AdList extends Component {
     render() {
         const { mainViewStyle, inputStyle, containerStyle, pickerStyle } = styles;
         return (
-            <View>
+            <View style={{ flex: 1 }}>
                 <View style={mainViewStyle}>
                     <SearchBar
                         showLoading
@@ -118,7 +144,7 @@ class AdList extends Component {
                     />
                     <View style={pickerStyle}>
                         <Picker                            
-                            selectedValue={this.props.sortOrder.sortBy}
+                            selectedValue={this.props.sortBy}
                             onValueChange={value => this.onSortByChange(value)}       
                             mode='dropdown'                  
                         >                    
@@ -135,6 +161,7 @@ class AdList extends Component {
                     {this.renderCategoryPanel()}
                 </View>
                 <ListView
+                style={{ flex: 1 }}
                     enableEmptySections
                     dataSource={this.dataSource}
                     renderRow={this.renderRow}
@@ -176,13 +203,20 @@ const styles = {
 };
 
 const mapStateToProps = state => {
-    console.log(state);
-    const ads = _.map(state.ads, (val, uid) => {
+    const ads = _.map(state.ads.ads, (val, uid) => {
       return { ...val, uid };
     });
-    const sortOrder = state.sortOrder;
-    const { categoryPanel } = state.sortOrder;
-    return { ads, sortOrder, categoryPanel }; 
+    const originalAds = _.map(state.ads.originalAds, (val, uid) => {
+        return { ...val, uid };
+      });
+    const { categoryPanel, sortBy, selectedCategory } = state.sortOrder;
+    return { ads, originalAds, sortBy, categoryPanel, selectedCategory }; 
   };
 
-  export default connect(mapStateToProps, { adsFetch, sortByChanged, adsChangedOrder, showCategoryPanel })(AdList);
+  export default connect(mapStateToProps, { 
+      adsFetch, 
+      sortByChanged, 
+      adsChangedOrder, 
+      showCategoryPanel,
+      sortByCategoryChanged
+})(AdList);

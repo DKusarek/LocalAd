@@ -10,7 +10,8 @@ const CategoryPanel = ({
     onChangeElectronics,
     onChangeAutomotive,
     onChangeHomeAndGarden,
-    onChangePets
+    onChangePets,
+    onChangeAll
 
 }) => {
     const { panelSectionStyle, textStyle } = styles;
@@ -49,7 +50,10 @@ const CategoryPanel = ({
                 onChange={onChangePets}                     
             />
             <Text style={textStyle}>Pets</Text>
-            
+            <CheckBox
+                onChange={onChangeAll}                     
+            />
+            <Text style={textStyle}>All</Text>
         </PanelSection>
     </View>
     );

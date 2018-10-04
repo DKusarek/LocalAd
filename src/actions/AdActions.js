@@ -10,7 +10,8 @@ import {
     AD_TAG_DELETE,
     SORT_BY_CHANGED,
     ADS_CHANGED_ORDER,
-    SHOW_CATEGORY_PANEL
+    SHOW_CATEGORY_PANEL,
+    SORT_BY_CATEGORY_CHANGED
  } from './types';
 
 export const adUpdate = ({ prop, value }) => {
@@ -54,17 +55,52 @@ export const addPicture = ({ image }) => {
     };
 };
 
-export const adsFetch = () => {
+export const adsFetchEdit = () => {
     const { currentUser } = firebase.auth();
     return (dispatch) => {
         firebase.database().ref(`/users/${currentUser.uid}/ads`)
         .on('value', snapshot => {
+            console.log(snapshot.val());
             dispatch({ type: ADS_FETCH_SUCCESS, payload: snapshot.val() });
         });
     };
 };
 
+
+export const adsFetch = () => {
+    const { currentUser } = firebase.auth();
+    return (dispatch) => {
+        console.log('weszlo');
+        firebase.database().ref('/users')
+        .once('value')
+        .then(snapshot => {
+            var ads = {};
+            Object.keys(snapshot.val()).forEach((key) => {
+                Object.keys(snapshot.val()[key]).forEach((insideKey) => {
+                    Object.keys(snapshot.val()[key][insideKey]).forEach((moreInsideKey) => {
+                        ads[moreInsideKey] = (snapshot.val()[key][insideKey][moreInsideKey]);
+                    });
+                });
+            });
+            dispatch({ type: ADS_FETCH_SUCCESS, payload: ads });
+        })
+        .catch((error) => console.log(error));
+        //     console.log(snapshot.val());
+        //     var ads;
+        //     snapshot.val().forEach(element => {
+        //         element.ads.forEach((el) => {
+        //             ads.push(el);
+        //         });
+        //     });
+        //     console.log('ads');
+        //     console.log(ads);
+        //     dispatch({ type: ADS_FETCH_SUCCESS, payload: snapshot.val() });
+        // });
+    };
+};
+
 export const adsChangedOrder = (ads) => {
+    console.log(ads);
     return {
         type: ADS_CHANGED_ORDER,
         payload: ads
@@ -112,3 +148,9 @@ export const showCategoryPanel = () => {
     };
 };
 
+export const sortByCategoryChanged = (category) => {
+    return {
+        type: SORT_BY_CATEGORY_CHANGED,
+        payload: category
+    };
+};
