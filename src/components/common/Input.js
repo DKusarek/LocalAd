@@ -6,9 +6,7 @@ const Input = ({
     value, 
     onChangeText, 
     placeholder, 
-    secureTextEntry, 
-    multiline,
-    numberOfLines
+    secureTextEntry
  }) => { 
     const { inputStyle, labelStyle, containerStyle } = styles;
 
@@ -23,8 +21,6 @@ const Input = ({
                 onChangeText={onChangeText}
                 underlineColorAndroid='transparent'
                 style={inputStyle} 
-                multiline={multiline}
-                numberOfLines={numberOfLines}
             />
         </View>
     );

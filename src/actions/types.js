@@ -13,6 +13,9 @@ export const ADS_FETCH_SUCCESS = 'ads_fetch_success';
 export const ADS_FETCH_PICTURE_SUCCESS = 'ads_fetch_picture_success';
 export const AD_TAG_ADD = 'ad_tag_add';
 export const AD_TAG_DELETE = 'ad_tag_delete';
+export const SORT_BY_CHANGED = 'sort_by_changed';
+export const ADS_CHANGED_ORDER = 'add_changed_order';
+export const SHOW_CATEGORY_PANEL = 'show_category_panel';
 
 export const TAG_ADD = 'tag_add';
 export const TAG_NAME_CHANGED = 'tag_name_changed';

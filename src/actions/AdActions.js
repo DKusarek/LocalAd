@@ -7,7 +7,10 @@ import {
     ADS_FETCH_SUCCESS,
     ADS_FETCH_PICTURE_SUCCESS,
     AD_TAG_ADD,
-    AD_TAG_DELETE
+    AD_TAG_DELETE,
+    SORT_BY_CHANGED,
+    ADS_CHANGED_ORDER,
+    SHOW_CATEGORY_PANEL
  } from './types';
 
 export const adUpdate = ({ prop, value }) => {
@@ -28,10 +31,9 @@ export const adCreate = ({ title, description, category, image }) => {
 
     return (dispatch) => { 
         const today = new Date();
-        const publishDate = today.getDate() + '/' 
-        + (today.getMonth() + 1) + '/' 
-        + today.getFullYear();
-        console.log(publishDate);
+        const publishDate = today.getFullYear() + '-' 
+        + (today.getMonth() + 1) + '-' 
+        + today.getDate();
         uploadImage(image)
             .then(() => {
                 firebase.database().ref(`/users/${currentUser.uid}/ads`)
@@ -62,6 +64,13 @@ export const adsFetch = () => {
     };
 };
 
+export const adsChangedOrder = (ads) => {
+    return {
+        type: ADS_CHANGED_ORDER,
+        payload: ads
+    };
+};
+
 export const getPicture = (title) => {
     const { currentUser } = firebase.auth();
     return (dispatch) => {
@@ -86,6 +95,20 @@ export const adTagDelete = (tagName) => {
     return {
         type: AD_TAG_DELETE,
         payload: tagName
+    };
+};
+
+
+export const sortByChanged = (sortBy) => {
+    return {
+        type: SORT_BY_CHANGED,
+        payload: sortBy
+    };
+};
+
+export const showCategoryPanel = () => {
+    return {
+        type: SHOW_CATEGORY_PANEL
     };
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from 'react-native-elements';
+import { SearchBar, Icon } from 'react-native-elements';
 import { TextInput, View, Text, Button } from 'react-native';
 
 const SearchInput = ({ 
@@ -7,11 +7,9 @@ const SearchInput = ({
     value, 
     onChangeText, 
     placeholder, 
-    secureTextEntry, 
-    multiline,
-    numberOfLines
+    secureTextEntry
  }) => { 
-    const { inputStyle, labelStyle, containerStyle } = styles;
+    const { inputStyle, labelStyle, containerStyle, buttonStyle } = styles;
 
     return (
         <View style={containerStyle}>
@@ -24,15 +22,13 @@ const SearchInput = ({
                 onChangeText={onChangeText}
                 underlineColorAndroid='transparent'
                 style={inputStyle} 
-                multiline={multiline}
-                numberOfLines={numberOfLines}
             />
-            <Button>
             <Icon
+                style={buttonStyle}
                 name='arrow-bold-right'
                 color='#00aced' 
+                onPress={() => console.log('icon')}
             />
-            </Button>
         </View>
     );
 };
@@ -51,8 +47,14 @@ const styles = {
         paddingLeft: 20,
         flex: 1
     },
+    buttonStyle: {
+        flex: 3
+    },
     containerStyle: {
-        height: 80,
+        borderBottomWidth: 1,
+        padding: 5,
+        backgroundColor: '#fff',
+        height: 20,
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-between'

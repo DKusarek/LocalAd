@@ -4,11 +4,13 @@ import AdFormReducer from './AdFormReducer';
 import AdReducer from './AdReducer';
 import PictureReducer from './PictureReducer';
 import TagReducer from './TagReducer';
+import SortByReducer from './SortByReducer';
 
 export default combineReducers({
     authorization: AuthorizationReducer,
     adForm: AdFormReducer,
     ads: AdReducer,
     picture: PictureReducer,
-    tags: TagReducer
+    tags: TagReducer,
+    sortOrder: SortByReducer
 });
