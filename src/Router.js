@@ -10,6 +10,7 @@ import TagInput from './components/Tag/TagInput';
 import LocationPanel from './components/LocationPanel/LocationPanel';
 import AdToEditList from './components/AdToEditList';
 import AdEdit from './components/AdEdit';
+import AdListForGuests from './components/AdListForGuests';
 
 const RouterComponent = () => {
     const { menuButtonStyle, chatButtonStyle, navigationStyle, mainTitleStyle } = styles;
@@ -25,6 +26,12 @@ const RouterComponent = () => {
                         initial
                         navigationBarStyle={navigationStyle}
                         titleStyle={mainTitleStyle}
+                    />
+                    <Scene 
+                        key="adListForGuests"
+                        component={AdListForGuests}
+                        navigationBarStyle={navigationStyle}
+                        navBarButtonColor='#fff'
                     />
                 </Scene>
                 <Scene key="main">

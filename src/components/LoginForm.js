@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import { Panel, PanelSection, Input, Button, Spinner } from './common';
 import { emailChanged, passwordChanged, loginUser, signInUser } from '../actions';
 
@@ -22,6 +23,11 @@ class LoginForm extends Component {
         const { email, password } = this.props;
         this.props.signInUser({ email, password });
     }
+
+    onContinueAsGuestButtonPress() {
+        Actions.adListForGuests();
+    }
+
     renderError() {
         if (this.props.error) {
             return (
@@ -109,7 +115,10 @@ class LoginForm extends Component {
                         </Text>
                         </PanelSection>
                         <PanelSection>
-                        <Button style={styles.buttonStyle}>
+                        <Button 
+                            style={styles.buttonStyle}
+                            onPress={this.onContinueAsGuestButtonPress.bind(this)}
+                        >
                             Continue as guest
                         </Button>
                     </PanelSection>

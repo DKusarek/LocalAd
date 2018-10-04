@@ -49,7 +49,7 @@ class Ad extends Component {
                     </PanelSection>
                     <PanelSection>
                         {this.renderImage()}                    
-                        <Text style={styles.titleStyle}>
+                        <Text style={styles.descriptionStyle}>
                             {description}
                         </Text>
                     </PanelSection>
@@ -62,8 +62,14 @@ const styles = {
     titleStyle: {
         fontSize: 18, 
         fontWeight: 'bold',
-        paddingLeft: 15,
-        
+        paddingLeft: 15        
+    },
+    categoryStyle: {
+
+    },
+    descriptionStyle: {
+        fontSize: 12, 
+        padding: 5  
     }
 };
 
