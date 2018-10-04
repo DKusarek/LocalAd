@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import { Text, Image } from 'react-native';
 import { connect } from 'react-redux';
-import { getPicture } from '../actions';
+import { getPicture, getDefaultImage } from '../actions';
 import { Panel, PanelSection } from './common';
 
 class Ad extends Component {
     componentWillMount() {
-        this.props.getPicture(this.props.ad.title);
+        this.props.getDefaultImage();
+        this.props.getPicture(this.props.ad.adUuid);
     }
 
     renderImage() {   
         if (this.props.image) {
-            const obj = this.props.image.find((image) => { return image.title === this.props.ad.title; });
+            const obj = this.props.image.find((image) => { return image.adUuid === this.props.ad.adUuid; });
             if (obj != null) {
             return (
                <Image source={{ uri: obj.url }} style={{ width: 200, height: 200 }} />
@@ -60,4 +61,4 @@ const mapStateToProps = (state) => {
     return { image };
 };
 
-export default connect(mapStateToProps, { getPicture })(Ad);
+export default connect(mapStateToProps, { getPicture, getDefaultImage })(Ad);

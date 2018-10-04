@@ -15,13 +15,16 @@ import { CategoryPanel } from './common';
 
 class AdList extends Component {    
     componentWillMount() {
+        console.log('weszlo');
         this.props.adsFetch();
         this.createDataSource(this.props);
     }
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {        
+        console.log('weszloTu');
         if (this.props.selectedCategory !== nextProps.selectedCategory) {
             this.showOnlyFromCategory(nextProps.selectedCategory);
         }
+        console.log(nextProps.ads);
         this.createDataSource(nextProps);
     }
 

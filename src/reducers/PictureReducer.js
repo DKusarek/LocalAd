@@ -10,7 +10,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case ADS_FETCH_PICTURE_SUCCESS:
-        state.image.push(action.payload);
+            state.image.push(action.payload);
             return { ...state };
         default:
             return state;

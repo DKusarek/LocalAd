@@ -1,11 +1,10 @@
 import * as firebase from 'firebase';
+import uuid from 'react-native-uuid';
 import { Actions } from 'react-native-router-flux';
 import { 
     AD_UPDATE,
     AD_CREATE,
-    AD_ADD_PICTURE,
     ADS_FETCH_SUCCESS,
-    ADS_FETCH_PICTURE_SUCCESS,
     AD_TAG_ADD,
     AD_TAG_DELETE,
     SORT_BY_CHANGED,
@@ -23,10 +22,11 @@ export const adUpdate = ({ prop, value }) => {
 
 export const adCreate = ({ title, description, category, image }) => {
     const { currentUser } = firebase.auth();
+    const adUuid = uuid.v1();
     const uploadImage = async(uri) => {
         const response = await fetch(uri);
         const blob = await response.blob();
-        const ref = firebase.storage().ref().child(`images/${currentUser.uid}/${title}`);
+        const ref = firebase.storage().ref().child(`images/${adUuid}`);
         return ref.put(blob);
     };
 
@@ -35,10 +35,11 @@ export const adCreate = ({ title, description, category, image }) => {
         const publishDate = today.getFullYear() + '-' 
         + (today.getMonth() + 1) + '-' 
         + today.getDate();
+
         uploadImage(image)
             .then(() => {
                 firebase.database().ref(`/users/${currentUser.uid}/ads`)
-                .push({ title, description, category, image, publishDate })
+                .push({ title, description, category, image, publishDate, adUuid })
                 .then(() => {            
                     dispatch({ type: AD_CREATE });
                     Actions.adList();
@@ -46,13 +47,6 @@ export const adCreate = ({ title, description, category, image }) => {
             })
             .catch((error) => console.log(error.message));    
         };
-};
-
-export const addPicture = ({ image }) => {
-    return {
-        type: AD_ADD_PICTURE,
-        payload: image
-    };
 };
 
 export const adsFetchEdit = () => {
@@ -70,7 +64,6 @@ export const adsFetchEdit = () => {
 export const adsFetch = () => {
     const { currentUser } = firebase.auth();
     return (dispatch) => {
-        console.log('weszlo');
         firebase.database().ref('/users')
         .once('value')
         .then(snapshot => {
@@ -85,17 +78,6 @@ export const adsFetch = () => {
             dispatch({ type: ADS_FETCH_SUCCESS, payload: ads });
         })
         .catch((error) => console.log(error));
-        //     console.log(snapshot.val());
-        //     var ads;
-        //     snapshot.val().forEach(element => {
-        //         element.ads.forEach((el) => {
-        //             ads.push(el);
-        //         });
-        //     });
-        //     console.log('ads');
-        //     console.log(ads);
-        //     dispatch({ type: ADS_FETCH_SUCCESS, payload: snapshot.val() });
-        // });
     };
 };
 
@@ -104,19 +86,6 @@ export const adsChangedOrder = (ads) => {
     return {
         type: ADS_CHANGED_ORDER,
         payload: ads
-    };
-};
-
-export const getPicture = (title) => {
-    const { currentUser } = firebase.auth();
-    return (dispatch) => {
-        const ref = firebase.storage().ref()
-        .child(`images/${currentUser.uid}/${title}`);
-        ref.getDownloadURL()
-        .then((url) => {
-           dispatch({ type: ADS_FETCH_PICTURE_SUCCESS, payload: { url, title } });
-        })
-        .catch((error) => console.log(error.message));
     };
 };
 

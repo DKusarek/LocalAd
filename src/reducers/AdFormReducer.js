@@ -3,7 +3,8 @@ import {
     AD_CREATE,
     AD_ADD_PICTURE,
     AD_TAG_ADD,
-    AD_TAG_DELETE
+    AD_TAG_DELETE,
+    GET_DEFAULT_IMAGE
 } from '../actions/types';
 
 const INITIAL_STATE = { 
@@ -22,6 +23,8 @@ const INITIAL_STATE = {
         case AD_CREATE:
             return INITIAL_STATE;
         case AD_ADD_PICTURE:
+            return { ...state, image: action.payload };
+        case GET_DEFAULT_IMAGE:
             return { ...state, image: action.payload };
         case AD_TAG_ADD:
             if (state.tags.indexOf(action.payload) === -1) {

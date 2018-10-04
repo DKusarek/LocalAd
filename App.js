@@ -9,7 +9,8 @@ import Router from './src/Router';
 export default class App extends Component {
   componentWillMount() {
     console.ignoredYellowBox = [
-      'Setting a timer'
+      'Setting a timer',
+      '[SECURITY] node-uuid'
   ];
   
     firebase.initializeApp({

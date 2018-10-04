@@ -8,11 +8,14 @@ export const SIGN_IN_USER_SUCCESS = 'sign_in_user_access';
 
 export const AD_UPDATE = 'ad_update';
 export const AD_CREATE = 'ad_create';
-export const AD_ADD_PICTURE = 'ad_add_picture';
 export const ADS_FETCH_SUCCESS = 'ads_fetch_success';
-export const ADS_FETCH_PICTURE_SUCCESS = 'ads_fetch_picture_success';
 export const AD_TAG_ADD = 'ad_tag_add';
 export const AD_TAG_DELETE = 'ad_tag_delete';
+
+
+export const AD_ADD_PICTURE = 'ad_add_picture';
+export const GET_DEFAULT_IMAGE = 'get_default_image';
+export const ADS_FETCH_PICTURE_SUCCESS = 'ads_fetch_picture_success';
 
 export const SORT_BY_CHANGED = 'sort_by_changed';
 export const ADS_CHANGED_ORDER = 'add_changed_order';
