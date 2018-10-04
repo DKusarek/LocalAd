@@ -2,11 +2,17 @@ import React, { Component } from 'react';
 import { View, Text, Picker } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { adUpdate } from '../actions';
+import { adUpdate, getDefaultImage } from '../actions';
 import { Button, Input, MultilineInput, PanelSection } from './common';
 import TagInput from './Tag/TagInput';
 
 class AdForm extends Component {
+    componentWillMount() {
+        if (this.props.image === undefined) {
+            this.props.getDefaultImage();
+        }
+    }
+
     getTags() {
        // console.log(this.props);
     }
@@ -95,4 +101,4 @@ const mapStateToProps = (state) => {
 };
 
 
-export default connect(mapStateToProps, { adUpdate })(AdForm);
+export default connect(mapStateToProps, { adUpdate, getDefaultImage })(AdForm);

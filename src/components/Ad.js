@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import { Text, Image } from 'react-native';
 import { connect } from 'react-redux';
-import { getPicture, updatePicture, getDefaultImage } from '../actions';
+import { getPicture, updatePicture } from '../actions';
 import { Panel, PanelSection } from './common';
 
 class Ad extends Component {
     componentWillMount() {
-        console.log('weszlo');
-        this.props.getDefaultImage();
         this.props.getPicture(this.props.ad.adUuid);
     }
 
     componentWillReceiveProps(nextProps) {  
-        console.log('weszloTu');
+        console.log(this.props.ad.title);
         if (this.props.ad.image !== nextProps.ad.image) {
             console.log('i tu');
             this.props.updatePicture(nextProps.ad.adUuid);
@@ -78,4 +76,4 @@ const mapStateToProps = (state) => {
     return { image };
 };
 
-export default connect(mapStateToProps, { getPicture, updatePicture, getDefaultImage })(Ad);
+export default connect(mapStateToProps, { getPicture, updatePicture })(Ad);

@@ -13,9 +13,14 @@ export default (state = INITIAL_STATE, action) => {
             state.image.push(action.payload);
             return { ...state };
         case UPDATE_PICTURE:
-            state.image.filter((image) => 
-            image.adUuid === action.payload.adUuid
-            )[0].url = action.payload.url;
+            const oldState = state.image.filter((image) => 
+                image.adUuid === action.payload.adUuid
+                );
+            if (oldState[0] !== undefined) {
+                oldState[0].url = action.payload.url;
+            } else {
+                state.image.push(action.payload);
+            }            
             return { ...state };
         default:
             return state;

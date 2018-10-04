@@ -13,7 +13,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case ADS_FETCH_SUCCESS:
-            return { ads: action.payload, originalAds: action.payload };
+            return { ...state, ads: action.payload, originalAds: action.payload };
         case ADS_TO_EDIT_FETCH_SUCCESS:
             return { ...state, adsToEdit: action.payload };
         case ADS_CHANGED_ORDER:

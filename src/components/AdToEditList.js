@@ -9,10 +9,13 @@ import AdToEdit from './AdToEdit';
 
 class AdToEditList extends Component {    
     componentWillMount() {
+        console.log('weszlo');
         this.props.adsFetchEdit();
         this.createDataSource(this.props);
     }
     componentWillReceiveProps(nextProps) {  
+        console.log('wweszlo tu');
+        console.log(nextProps.ads);
         this.createDataSource(nextProps);
     }
 

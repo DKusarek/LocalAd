@@ -116,7 +116,6 @@ class LoginForm extends Component {
                         </PanelSection>
                         <PanelSection>
                         <Button 
-                            style={styles.buttonStyle}
                             onPress={this.onContinueAsGuestButtonPress.bind(this)}
                         >
                             Continue as guest

@@ -67,13 +67,15 @@ export const adsFetch = () => {
         firebase.database().ref('/users')
         .on('value', snapshot => {
             var ads = {};
-            Object.keys(snapshot.val()).forEach((key) => {
-                Object.keys(snapshot.val()[key]).forEach((insideKey) => {
-                    Object.keys(snapshot.val()[key][insideKey]).forEach((moreInsideKey) => {
-                        ads[moreInsideKey] = (snapshot.val()[key][insideKey][moreInsideKey]);
+            if (snapshot.val() != null) {
+                Object.keys(snapshot.val()).forEach((key) => {
+                    Object.keys(snapshot.val()[key]).forEach((insideKey) => {
+                        Object.keys(snapshot.val()[key][insideKey]).forEach((moreInsideKey) => {
+                            ads[moreInsideKey] = (snapshot.val()[key][insideKey][moreInsideKey]);
+                        });
                     });
                 });
-            });
+            }
             dispatch({ type: ADS_FETCH_SUCCESS, payload: ads });
         });
     };
@@ -99,7 +101,7 @@ export const adSave = ({ title, description, category, image, adUuid, uid }) => 
                 .set({ title, description, category, image, publishDate, adUuid })
                 .then(() => {
                     dispatch({ type: AD_SAVE_SUCCESS });
-                    Actions.adList();
+                    Actions.adToEditList();
                 })
                 .catch((error) => {
                     console.log(error);
@@ -108,6 +110,26 @@ export const adSave = ({ title, description, category, image, adUuid, uid }) => 
             .catch((error)=> {
                 console.log(error);
             });
+    };
+};
+
+export const adDelete = (uid, adUuid) => {
+    return () => {
+    firebase.storage().ref()
+        .child(`images/${adUuid}`)
+        .delete()
+        .then(() => {
+            const { currentUser } = firebase.auth();            
+            firebase.database().ref(`/users/${currentUser.uid}/ads/${uid}`)
+            .remove()
+            .then(() => {
+                console.log('weszlo');
+                Actions.adToEditList();
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+        });         
     };
 };
 

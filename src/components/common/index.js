@@ -6,3 +6,4 @@ export * from './Spinner';
 export * from './MultilineInput';
 export * from './SearchInput';
 export * from './CategoryPanel';
+export * from './Confirm';
