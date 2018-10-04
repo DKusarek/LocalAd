@@ -4,7 +4,8 @@ import {
     AD_ADD_PICTURE,
     AD_TAG_ADD,
     AD_TAG_DELETE,
-    GET_DEFAULT_IMAGE
+    GET_DEFAULT_IMAGE,
+    AD_SAVE_SUCCESS
 } from '../actions/types';
 
 const INITIAL_STATE = { 
@@ -21,6 +22,8 @@ const INITIAL_STATE = {
         // [] key interpolation
             return { ...state, [action.payload.prop]: action.payload.value };
         case AD_CREATE:
+            return INITIAL_STATE;
+        case AD_SAVE_SUCCESS:
             return INITIAL_STATE;
         case AD_ADD_PICTURE:
             return { ...state, image: action.payload };

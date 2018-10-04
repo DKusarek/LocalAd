@@ -12,10 +12,13 @@ export const ADS_FETCH_SUCCESS = 'ads_fetch_success';
 export const AD_TAG_ADD = 'ad_tag_add';
 export const AD_TAG_DELETE = 'ad_tag_delete';
 
+export const ADS_TO_EDIT_FETCH_SUCCESS = 'ads_to_edit_fetch_success';
+export const AD_SAVE_SUCCESS = 'ad_save_success';
 
 export const AD_ADD_PICTURE = 'ad_add_picture';
 export const GET_DEFAULT_IMAGE = 'get_default_image';
 export const ADS_FETCH_PICTURE_SUCCESS = 'ads_fetch_picture_success';
+export const UPDATE_PICTURE = 'update_picture';
 
 export const SORT_BY_CHANGED = 'sort_by_changed';
 export const ADS_CHANGED_ORDER = 'add_changed_order';

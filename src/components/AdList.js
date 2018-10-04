@@ -15,16 +15,13 @@ import { CategoryPanel } from './common';
 
 class AdList extends Component {    
     componentWillMount() {
-        console.log('weszlo');
         this.props.adsFetch();
         this.createDataSource(this.props);
     }
-    componentWillReceiveProps(nextProps) {        
-        console.log('weszloTu');
+    componentWillReceiveProps(nextProps) {  
         if (this.props.selectedCategory !== nextProps.selectedCategory) {
             this.showOnlyFromCategory(nextProps.selectedCategory);
         }
-        console.log(nextProps.ads);
         this.createDataSource(nextProps);
     }
 
@@ -96,14 +93,6 @@ class AdList extends Component {
     }
 
     createDataSource({ ads }) {
-        const ds = new ListView.DataSource({
-            rowHasChanged: (r1, r2) => r1 !== r2
-        });
-
-        this.dataSource = ds.cloneWithRows(ads);
-    }
-
-    createDataSourceTable(ads) {
         const ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
         });

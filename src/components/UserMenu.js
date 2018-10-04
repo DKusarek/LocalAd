@@ -7,6 +7,10 @@ class UserMenu extends Component {
         Actions.adCreate();
     }
     
+    onViewYourAdsPress() {
+        Actions.adToEditList();
+    }
+
     render() {
         return (
             <Panel>
@@ -16,7 +20,7 @@ class UserMenu extends Component {
                     </Button>
                 </PanelSection>
                 <PanelSection>
-                    <Button>
+                    <Button onPress={this.onViewYourAdsPress.bind(this)}>
                         View your Ads
                     </Button>
                 </PanelSection>

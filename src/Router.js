@@ -8,6 +8,8 @@ import AdCreate from './components/AdCreate';
 import PicturePanel from './components/AddPicturePanel/PicturePanel';
 import TagInput from './components/Tag/TagInput';
 import LocationPanel from './components/LocationPanel/LocationPanel';
+import AdToEditList from './components/AdToEditList';
+import AdEdit from './components/AdEdit';
 
 const RouterComponent = () => {
     const { menuButtonStyle, chatButtonStyle, navigationStyle, mainTitleStyle } = styles;
@@ -58,6 +60,18 @@ const RouterComponent = () => {
                     <Scene
                         key="picturePanel"
                         component={PicturePanel}
+                        navigationBarStyle={navigationStyle}
+                        navBarButtonColor='#fff'
+                    />
+                    <Scene
+                        key="adToEditList"
+                        component={AdToEditList}
+                        navigationBarStyle={navigationStyle}
+                        navBarButtonColor='#fff'
+                    />
+                    <Scene
+                        key="adEdit"
+                        component={AdEdit}
                         navigationBarStyle={navigationStyle}
                         navBarButtonColor='#fff'
                     />

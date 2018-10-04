@@ -10,7 +10,9 @@ import {
     SORT_BY_CHANGED,
     ADS_CHANGED_ORDER,
     SHOW_CATEGORY_PANEL,
-    SORT_BY_CATEGORY_CHANGED
+    SORT_BY_CATEGORY_CHANGED,
+    ADS_TO_EDIT_FETCH_SUCCESS,
+    AD_SAVE_SUCCESS
  } from './types';
 
 export const adUpdate = ({ prop, value }) => {
@@ -54,19 +56,16 @@ export const adsFetchEdit = () => {
     return (dispatch) => {
         firebase.database().ref(`/users/${currentUser.uid}/ads`)
         .on('value', snapshot => {
-            console.log(snapshot.val());
-            dispatch({ type: ADS_FETCH_SUCCESS, payload: snapshot.val() });
+            dispatch({ type: ADS_TO_EDIT_FETCH_SUCCESS, payload: snapshot.val() });
         });
     };
 };
 
 
 export const adsFetch = () => {
-    const { currentUser } = firebase.auth();
     return (dispatch) => {
         firebase.database().ref('/users')
-        .once('value')
-        .then(snapshot => {
+        .on('value', snapshot => {
             var ads = {};
             Object.keys(snapshot.val()).forEach((key) => {
                 Object.keys(snapshot.val()[key]).forEach((insideKey) => {
@@ -76,8 +75,39 @@ export const adsFetch = () => {
                 });
             });
             dispatch({ type: ADS_FETCH_SUCCESS, payload: ads });
-        })
-        .catch((error) => console.log(error));
+        });
+    };
+};
+
+export const adSave = ({ title, description, category, image, adUuid, uid }) => {
+    const { currentUser } = firebase.auth();
+    const uploadImage = async(uri) => {
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        const ref = firebase.storage().ref().child(`images/${adUuid}`);
+        return ref.put(blob);
+    };
+
+    return (dispatch) => {        
+        const today = new Date();
+        const publishDate = today.getFullYear() + '-' 
+        + (today.getMonth() + 1) + '-' 
+        + today.getDate();
+        uploadImage(image)
+            .then(() => {
+                firebase.database().ref(`/users/${currentUser.uid}/ads/${uid}`)
+                .set({ title, description, category, image, publishDate, adUuid })
+                .then(() => {
+                    dispatch({ type: AD_SAVE_SUCCESS });
+                    Actions.adList();
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            })
+            .catch((error)=> {
+                console.log(error);
+            });
     };
 };
 

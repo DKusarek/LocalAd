@@ -3,7 +3,7 @@ import { View, Text, Picker } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { adUpdate } from '../actions';
-import { Button, Input, MultilineInput, Panel, PanelSection } from './common';
+import { Button, Input, MultilineInput, PanelSection } from './common';
 import TagInput from './Tag/TagInput';
 
 class AdForm extends Component {
@@ -45,7 +45,10 @@ class AdForm extends Component {
                                 value => this.props.adUpdate({ prop: 'category', value })
                             }                         
                         >                    
-                            <Picker.Item label="Services And Companies" value="Services And Companies" />
+                            <Picker.Item 
+                                label="Services And Companies" 
+                                value="Services And Companies" 
+                            />
                             <Picker.Item label="Fashion" value="Fashion" />
                             <Picker.Item label="Sport And Hobby" value="Sport And Hobby" />
                             <Picker.Item label="Electronics" value="Electronics" />
