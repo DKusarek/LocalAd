@@ -7,7 +7,8 @@ import {
     AUTH_USER_FAILED,
     LOGIN_USER,
     SIGN_IN_USER,
-    SIGN_IN_USER_SUCCESS
+    SIGN_IN_USER_SUCCESS,
+    PASSWORD2_CHANGED
 } from './types';
 
 export const emailChanged = (text) => {
@@ -24,6 +25,13 @@ export const passwordChanged = (text) => {
     };
 };
 
+export const password2Changed = (text) => {
+    return {
+        type: PASSWORD2_CHANGED,
+        payload: text
+    };
+};
+
 export const loginUser = ({ email, password }) => {
     return (dispatch) => {
         dispatch({ type: LOGIN_USER });
@@ -36,15 +44,19 @@ export const loginUser = ({ email, password }) => {
     };
 };
 
-export const signInUser = ({ email, password }) => {
+export const signInUser = ({ email, password, password2 }) => {
     return (dispatch) => {
         dispatch({ type: SIGN_IN_USER });
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then(() => signInUserSuccess(dispatch))
-            .catch((error) => {
-                console.log(error);
-                authUserFailed(dispatch, error.message);
-            });
+        if (password !== password2) {
+            authUserFailed(dispatch, 'Given passwords are not identical');
+        } else {
+            firebase.auth().createUserWithEmailAndPassword(email, password)
+                .then(() => signInUserSuccess(dispatch))
+                .catch((error) => {
+                    console.log(error);
+                    authUserFailed(dispatch, error.message);
+                });
+        }
     };
 };
 

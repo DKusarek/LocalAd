@@ -5,12 +5,14 @@ import {
     SIGN_IN_USER_SUCCESS,
     AUTH_USER_FAILED,
     LOGIN_USER,
-    SIGN_IN_USER
+    SIGN_IN_USER,
+    PASSWORD2_CHANGED
 } from '../actions/types';
 
 const INITIAL_STATE = { 
     email: '', 
     password: '', 
+    password2: '', 
     user: null, 
     error: '',
     signInSuccess: '',
@@ -24,6 +26,8 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, email: action.payload };
         case PASSWORD_CHANGED:
             return { ...state, password: action.payload };
+        case PASSWORD2_CHANGED:
+            return { ...state, password2: action.payload };
         case LOGIN_USER_SUCCESS:
             return { ...state, ...INITIAL_STATE, user: action.payload };
         case SIGN_IN_USER_SUCCESS:
@@ -35,7 +39,8 @@ export default (state = INITIAL_STATE, action) => {
             return { 
                 ...state, 
                 error: action.payload, 
-                password: '', 
+                password: '',                 
+                password2: '', 
                 loadingLogin: false,
                 loadingSignIn: false 
             };

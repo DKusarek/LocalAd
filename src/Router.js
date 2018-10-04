@@ -1,6 +1,6 @@
 import React from 'react';
 import { Scene, Router, Actions } from 'react-native-router-flux';
-import LoginForm from './components/LoginForm';
+import LoginForm from './components/AuthPanel/LoginForm';
 import AdList from './components/AdList';
 import UserMenu from './components/UserMenu';
 import AdForm from './components/AdForm';
@@ -11,6 +11,8 @@ import LocationPanel from './components/LocationPanel/LocationPanel';
 import AdToEditList from './components/AdToEditList';
 import AdEdit from './components/AdEdit';
 import AdListForGuests from './components/AdListForGuests';
+import MainView from './components/AuthPanel/MainView';
+import SignInForm from './components/AuthPanel/SignInForm';
 
 const RouterComponent = () => {
     const { menuButtonStyle, chatButtonStyle, navigationStyle, mainTitleStyle } = styles;
@@ -20,10 +22,21 @@ const RouterComponent = () => {
             <Scene key="root" hideNavBar>
                 <Scene key="auth">
                     <Scene 
+                        key="mainView" 
+                        component={MainView} 
+                        initial
+                        navigationBarStyle={navigationStyle}
+                        titleStyle={mainTitleStyle}
+                    />
+                    <Scene 
                         key="login" 
                         component={LoginForm} 
-                        title="Local Ad" 
-                        initial
+                        navigationBarStyle={navigationStyle}
+                        titleStyle={mainTitleStyle}
+                    />
+                    <Scene 
+                        key="signIn" 
+                        component={SignInForm} 
                         navigationBarStyle={navigationStyle}
                         titleStyle={mainTitleStyle}
                     />

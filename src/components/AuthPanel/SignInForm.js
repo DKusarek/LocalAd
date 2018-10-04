@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { Panel, PanelSection, Input, Button, Spinner } from '../../components/common';
-import { emailChanged, passwordChanged, loginUser } from '../../actions';
+import { emailChanged, passwordChanged, password2Changed, signInUser } from '../../actions';
+import { Actions } from 'react-native-router-flux';
 
-class LoginForm extends Component {
+class SignInForm extends Component {
     onEmailChange(text) {
         this.props.emailChanged(text);
     }
@@ -13,9 +14,17 @@ class LoginForm extends Component {
         this.props.passwordChanged(text);
     }
 
+    onPassword2Change(text) {
+        this.props.password2Changed(text);
+    }
+
+    onSignInButtonPress() {
+        const { email, password, password2 } = this.props;
+        this.props.signInUser({ email, password, password2 });
+    }
+
     onLogInButtonPress() {
-        const { email, password } = this.props;
-        this.props.loginUser({ email, password });
+        Actions.login();
     }
 
     renderError() {
@@ -42,17 +51,23 @@ class LoginForm extends Component {
         }
     }
 
-    renderButtonLogIn() {
-        if (this.props.loadingLogin) {
+    renderButtonSignIn() {
+        if (this.props.loadingSignIn) {
             return (
                 <Spinner size="large" />
             );
-        } 
-        return (
+        } else if (this.props.signInSuccess) {
+            return (
             <Button onPress={this.onLogInButtonPress.bind(this)}>
                 Log in
             </Button>
-        );        
+            );  
+        }
+        return (
+            <Button onPress={this.onSignInButtonPress.bind(this)}>
+                Sign in
+            </Button>
+        );            
     }
     
     render() {
@@ -76,13 +91,22 @@ class LoginForm extends Component {
                         value={this.props.password}
                     />
                 </PanelSection>
+                <PanelSection>
+                    <Input 
+                        secureTextEntry
+                        label="Password"
+                        placeholder="Type again"
+                        onChangeText={this.onPassword2Change.bind(this)}
+                        value={this.props.password2}
+                    />
+                    </PanelSection>
                 {this.renderError()}
                 {this.renderSuccessSignIn()}
                 <PanelSection>
-                    {this.renderButtonLogIn()} 
+                    {this.renderButtonSignIn()} 
                 </PanelSection>
             </Panel>
-         </View>
+        </View>
         );
     }
 }
@@ -109,17 +133,19 @@ const styles = {
 };
 
 const mapStateToProps = (state) => {
-    const { email, password, error, loadingLogin } = 
+    const { email, password, password2, error, signInSuccess, loadingSignIn } = 
     state.authorization;
     return {
         email,
         password,
+        password2,
         error,
-        loadingLogin
+        signInSuccess,
+        loadingSignIn
     };
 };
 
 export default connect(mapStateToProps, { 
-    emailChanged, passwordChanged, loginUser
-})(LoginForm);
+    emailChanged, passwordChanged, password2Changed, signInUser
+})(SignInForm);
 
