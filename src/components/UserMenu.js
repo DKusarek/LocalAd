@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
+import firebase from 'firebase';
 import { Button, Panel, PanelSection } from './common';
 
 class UserMenu extends Component {
@@ -9,6 +10,18 @@ class UserMenu extends Component {
     
     onViewYourAdsPress() {
         Actions.adToEditList();
+    }
+
+    onChangePasswordButtonPress() {
+        Actions.changePassword();
+    }
+    
+    onLogOutPress() {
+        firebase.auth().signOut().then(() => {
+            Actions.mainView();
+        }, (error) => {
+            console.log(error);
+        });
     }
 
     render() {
@@ -25,12 +38,12 @@ class UserMenu extends Component {
                     </Button>
                 </PanelSection>
                 <PanelSection>
-                    <Button>
+                    <Button onPress={this.onChangePasswordButtonPress.bind(this)}>
                         Change password
                     </Button>
                 </PanelSection>
                 <PanelSection>
-                    <Button>
+                    <Button onPress={this.onLogOutPress.bind(this)}>
                         Log out
                     </Button>
                 </PanelSection>

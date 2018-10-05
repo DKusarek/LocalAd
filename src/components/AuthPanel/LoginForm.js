@@ -30,18 +30,6 @@ class LoginForm extends Component {
         }
     }
 
-    renderSuccessSignIn() {
-        if (this.props.signInSuccess) {
-            return (
-                <View style={{ backgroundColor: 'white' }}>
-                    <Text style={styles.signInSuccessTextStyle}>
-                        {this.props.signInSuccess}
-                    </Text>
-                </View>
-            );
-        }
-    }
-
     renderButtonLogIn() {
         if (this.props.loadingLogin) {
             return (
@@ -77,7 +65,6 @@ class LoginForm extends Component {
                     />
                 </PanelSection>
                 {this.renderError()}
-                {this.renderSuccessSignIn()}
                 <PanelSection>
                     {this.renderButtonLogIn()} 
                 </PanelSection>

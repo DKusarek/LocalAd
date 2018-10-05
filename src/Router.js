@@ -13,6 +13,7 @@ import AdEdit from './components/AdEdit';
 import AdListForGuests from './components/AdListForGuests';
 import MainView from './components/AuthPanel/MainView';
 import SignInForm from './components/AuthPanel/SignInForm';
+import ChangePassword from './components/AuthPanel/ChangePassword';
 
 const RouterComponent = () => {
     const { menuButtonStyle, chatButtonStyle, navigationStyle, mainTitleStyle } = styles;
@@ -106,6 +107,12 @@ const RouterComponent = () => {
                         component={LocationPanel}
                         navigationBarStyle={navigationStyle}
                         navBarButtonColor='#fff'
+                    />
+                    <Scene 
+                        key="changePassword" 
+                        component={ChangePassword} 
+                        navigationBarStyle={navigationStyle}
+                        titleStyle={mainTitleStyle}
                     />
                 </Scene>                
             </Scene>
