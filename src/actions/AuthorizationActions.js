@@ -11,8 +11,15 @@ import {
     PASSWORD2_CHANGED,    
     PASSWORD3_CHANGED,
     CHANGE_PASSWORD,
-    CHANGE_PASSWORD_SUCCESS
+    CHANGE_PASSWORD_SUCCESS,
+    QUICK_LOG_IN
 } from './types';
+
+export const quickLoginIn = () => {
+    return {
+        type: QUICK_LOG_IN
+    };
+};
 
 export const emailChanged = (text) => {
     return {
@@ -96,7 +103,7 @@ export const changePassword = ({ password, password2, password3 }) => {
             if (password2 !== password3) {
                 authUserFailed(dispatch, 'Given new passwords are not identical');
             } else if (password === password2) {
-                authUserFailed(dispatch, 'Given new password is the same as an old one');
+                authUserFailed(dispatch, 'Given password is the same as an old one');
             } else {
                 firebase.auth().currentUser.updatePassword(password2)
                 .then(() => dispatch({ type: CHANGE_PASSWORD_SUCCESS }))

@@ -123,7 +123,6 @@ export const adDelete = (uid, adUuid) => {
             firebase.database().ref(`/users/${currentUser.uid}/ads/${uid}`)
             .remove()
             .then(() => {
-                console.log('weszlo');
                 Actions.adToEditList();
             });
         })
@@ -134,7 +133,6 @@ export const adDelete = (uid, adUuid) => {
 };
 
 export const adsChangedOrder = (ads) => {
-    console.log(ads);
     return {
         type: ADS_CHANGED_ORDER,
         payload: ads

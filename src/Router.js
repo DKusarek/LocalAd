@@ -14,6 +14,8 @@ import AdListForGuests from './components/AdListForGuests';
 import MainView from './components/AuthPanel/MainView';
 import SignInForm from './components/AuthPanel/SignInForm';
 import ChangePassword from './components/AuthPanel/ChangePassword';
+import Chat from './components/ChatPanel/Chat';
+import ReduxChat from './components/ChatPanel/ReduxChat';
 
 const RouterComponent = () => {
     const { menuButtonStyle, chatButtonStyle, navigationStyle, mainTitleStyle } = styles;
@@ -57,7 +59,7 @@ const RouterComponent = () => {
                         leftButtonIconStyle={chatButtonStyle}
                         rightButtonImage={require('./images/menu.png')}                       
                         rightButtonIconStyle={menuButtonStyle}
-                        onLeft={() => {}} 
+                        onLeft={() => { Actions.chatView(); }} 
                         onRight={() => { Actions.userMenu(); }}
                     />
                     <Scene
@@ -114,7 +116,17 @@ const RouterComponent = () => {
                         navigationBarStyle={navigationStyle}
                         titleStyle={mainTitleStyle}
                     />
-                </Scene>                
+                </Scene>     
+                <Scene key="chat">
+                    <Scene 
+                        key="chatView" 
+                        component={ReduxChat} 
+                        back
+                        backButtonTintColor="#fff"
+                        navigationBarStyle={navigationStyle}
+                        titleStyle={mainTitleStyle}
+                    />
+                </Scene>           
             </Scene>
         </Router>
     );

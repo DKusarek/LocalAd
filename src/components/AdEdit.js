@@ -28,7 +28,6 @@ class AdEdit extends Component {
 
     onAccept() {
         const { uid, adUuid } = this.props.ad;
-        console.log(adUuid);
         this.props.adDelete(uid, adUuid);
     }
 

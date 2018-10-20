@@ -10,9 +10,7 @@ class Ad extends Component {
     }
 
     componentWillReceiveProps(nextProps) {  
-        console.log(this.props.ad.title);
         if (this.props.ad.image !== nextProps.ad.image) {
-            console.log('i tu');
             this.props.updatePicture(nextProps.ad.adUuid);
         }
     }

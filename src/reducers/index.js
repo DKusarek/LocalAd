@@ -5,6 +5,7 @@ import AdReducer from './AdReducer';
 import PictureReducer from './PictureReducer';
 import TagReducer from './TagReducer';
 import SortByReducer from './SortByReducer';
+import ChatReducer from './ChatReducer';
 
 export default combineReducers({
     authorization: AuthorizationReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
     ads: AdReducer,
     picture: PictureReducer,
     tags: TagReducer,
-    sortOrder: SortByReducer
+    sortOrder: SortByReducer,
+    chat: ChatReducer
 });

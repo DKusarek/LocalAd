@@ -9,7 +9,8 @@ import {
     PASSWORD2_CHANGED,    
     PASSWORD3_CHANGED,
     CHANGE_PASSWORD,
-    CHANGE_PASSWORD_SUCCESS
+    CHANGE_PASSWORD_SUCCESS,
+    QUICK_LOG_IN
 } from '../actions/types';
 
 const INITIAL_STATE = { 
@@ -28,6 +29,8 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
+        case QUICK_LOG_IN:
+            return { ...state, email: 'user@local.ad', password: 'password1' };
         case EMAIL_CHANGED:
             return { ...state, email: action.payload };
         case PASSWORD_CHANGED:

@@ -9,6 +9,7 @@ export const SIGN_IN_USER = 'sign_in_user';
 export const SIGN_IN_USER_SUCCESS = 'sign_in_user_access';
 export const CHANGE_PASSWORD = 'change_password';
 export const CHANGE_PASSWORD_SUCCESS = 'change_password_success';
+export const QUICK_LOG_IN = 'quick_log_in';
 
 export const AD_UPDATE = 'ad_update';
 export const AD_CREATE = 'ad_create';
@@ -32,3 +33,7 @@ export const SORT_BY_CATEGORY_CHANGED = 'sort_by_category_changed';
 export const TAG_ADD = 'tag_add';
 export const TAG_NAME_CHANGED = 'tag_name_changed';
 export const TAG_DELETE = 'tag_delete';
+
+export const ADD_MESSAGE = 'add_message';
+export const FETCH_MESSAGES = 'fetch_messages';
+export const MESSAGE_RECIVED = 'message_received';

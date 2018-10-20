@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { Panel, PanelSection, Input, Button, Spinner } from '../../components/common';
-import { emailChanged, passwordChanged, loginUser } from '../../actions';
+import { emailChanged, passwordChanged, loginUser, quickLoginIn } from '../../actions';
 
 class LoginForm extends Component {
+    componentWillMount() {
+        this.props.quickLoginIn();
+    }
     onEmailChange(text) {
         this.props.emailChanged(text);
     }
@@ -107,6 +110,6 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, { 
-    emailChanged, passwordChanged, loginUser
+    emailChanged, passwordChanged, loginUser, quickLoginIn
 })(LoginForm);
 
