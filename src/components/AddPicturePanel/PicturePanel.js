@@ -23,7 +23,7 @@ class PicturePanel extends Component {
             <Panel>
                 <PanelSection>
                 {image &&
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+          <Image source={{ uri: image }} style={{ width: 340, height: 200 }} />}
                 </PanelSection>
                 <PanelSection>
                     <Button onPress={this.pickImage}>

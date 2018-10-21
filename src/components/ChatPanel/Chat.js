@@ -1,54 +1,42 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { View, KeyboardAvoidingView } from 'react-native';
 import firebase from 'firebase';
 import { GiftedChat } from 'react-native-gifted-chat';
-import { addMessages } from '../../actions';
-import Fire from './Fire';
+import { addMessages, fetchMessges } from '../../actions';
 
 class Chat extends Component {
-    state = {
-        messages: [],
-      };
-     
-    componentDidMount() {
-        Fire.shared.on(message =>
-          this.setState(previousState => ({
-            messages: GiftedChat.append(previousState.messages, message),
-          }))
-        );
+    
+    componentWillMount() {
+        this.props.fetchMessges();
+        GiftedChat.append(this.props.messages);
     }
-    // onSend(message) {
-    //     this.props.addMessages({ message });
-    // }
 
-    componentWillUnmount() {
-        Fire.shared.off();
-      }
+    onSend(messages) { 
+        this.props.addMessages(messages);          
+    }
 
-      get user() {
-        // const { currentUser } = firebase.auth();
-        // console.log(currentUser);
-        // Return our name and our UID for GiftedChat to parse
-        return {
-          name: "Nika",
-          _id: 1
-        };
-      }
-
-      render() {
+    render() {        
+        const { currentUser } = firebase.auth();   
         return (
-          <GiftedChat
-            messages={this.state.messages}
-            onSend={Fire.shared.send}
-            user={this.user}
-          />
+            <View style={{ flex: 1 }}>
+                <GiftedChat
+                    messages={this.props.messages}
+                    onSend={value => this.onSend(value)}
+                    user={{
+                        _id: currentUser.uid,
+                        name: currentUser.email
+                    }}
+                    showUserAvatar
+                />
+                <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={80} />
+            </View>
         );
       }
 }
 
-// const mapStateToProps = (state) => {
-//     const { messages } = state.chat;
-//     return { messages };
-// };
-export default Chat;
-//export default connect(mapStateToProps, { addMessages })(Chat);
+const mapStateToProps = (state) => {
+    const { messages, fetching } = state.chat;
+    return { messages, fetching };
+};
+export default connect(mapStateToProps, { addMessages, fetchMessges })(Chat);

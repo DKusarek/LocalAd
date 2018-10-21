@@ -10,6 +10,8 @@ import {
     PASSWORD3_CHANGED,
     CHANGE_PASSWORD,
     CHANGE_PASSWORD_SUCCESS,
+    FIRST_NAME_CHANGED,
+    LAST_NAME_CHANGED,
     QUICK_LOG_IN
 } from '../actions/types';
 
@@ -19,6 +21,8 @@ const INITIAL_STATE = {
     password2: '', 
     password3: '',
     user: null, 
+    firstName: '',
+    lastName: '',
     error: '',
     signInSuccess: '',    
     changePasswordSuccess: '',
@@ -33,6 +37,10 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, email: 'user@local.ad', password: 'password1' };
         case EMAIL_CHANGED:
             return { ...state, email: action.payload };
+        case FIRST_NAME_CHANGED:
+            return { ...state, firstName: action.payload };
+        case LAST_NAME_CHANGED:
+            return { ...state, lastName: action.payload };
         case PASSWORD_CHANGED:
             return { ...state, password: action.payload };
         case PASSWORD2_CHANGED:

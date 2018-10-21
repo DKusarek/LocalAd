@@ -12,6 +12,8 @@ import {
     PASSWORD3_CHANGED,
     CHANGE_PASSWORD,
     CHANGE_PASSWORD_SUCCESS,
+    FIRST_NAME_CHANGED,
+    LAST_NAME_CHANGED,
     QUICK_LOG_IN
 } from './types';
 
@@ -24,6 +26,20 @@ export const quickLoginIn = () => {
 export const emailChanged = (text) => {
     return {
         type: EMAIL_CHANGED,
+        payload: text
+    };
+};
+
+export const firstNameChanged = (text) => {
+    return {
+        type: FIRST_NAME_CHANGED,
+        payload: text
+    };
+};
+
+export const lastNameChanged = (text) => {
+    return {
+        type: LAST_NAME_CHANGED,
         payload: text
     };
 };
@@ -61,18 +77,32 @@ export const loginUser = ({ email, password }) => {
     };
 };
 
-export const signInUser = ({ email, password, password2 }) => {
+export const signInUser = ({ email, password, password2, firstName, lastName }) => {
     return (dispatch) => {
         dispatch({ type: SIGN_IN_USER });
         if (password !== password2) {
             authUserFailed(dispatch, 'Given passwords are not identical');
         } else {
             firebase.auth().createUserWithEmailAndPassword(email, password)
-                .then(() => signInUserSuccess(dispatch))
+                .then(({ user }) => { 
+                    firebase.database().ref('userInfo')
+                    .push({ 
+                        firstName, 
+                        lastName,
+                        uid: user.uid
+                    })
+                    .then(() => {            
+                        dispatch({ type: SIGN_IN_USER_SUCCESS });
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        authUserFailed(dispatch, error.message);
+                    });
+                })
                 .catch((error) => {
                     console.log(error);
                     authUserFailed(dispatch, error.message);
-                });
+                });                
         }
     };
 };

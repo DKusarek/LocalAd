@@ -9,6 +9,8 @@ export const SIGN_IN_USER = 'sign_in_user';
 export const SIGN_IN_USER_SUCCESS = 'sign_in_user_access';
 export const CHANGE_PASSWORD = 'change_password';
 export const CHANGE_PASSWORD_SUCCESS = 'change_password_success';
+export const FIRST_NAME_CHANGED = 'first_name_changed';
+export const LAST_NAME_CHANGED = 'last_name_changed';
 export const QUICK_LOG_IN = 'quick_log_in';
 
 export const AD_UPDATE = 'ad_update';

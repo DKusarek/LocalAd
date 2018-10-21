@@ -21,7 +21,7 @@ class AdCreate extends Component {
                 <AdForm {...this.props} />
                 <PanelSection>
                     <Button onPress={this.onButtonPress.bind(this)}>
-                        Publish Add
+                        Publish Ad
                     </Button>
                 </PanelSection>
             </Panel>

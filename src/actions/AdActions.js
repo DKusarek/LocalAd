@@ -41,7 +41,15 @@ export const adCreate = ({ title, description, category, image }) => {
         uploadImage(image)
             .then(() => {
                 firebase.database().ref(`/users/${currentUser.uid}/ads`)
-                .push({ title, description, category, image, publishDate, adUuid })
+                .push({ 
+                    title, 
+                    description, 
+                    category, 
+                    image, 
+                    publishDate, 
+                    adUuid, 
+                    owner: currentUser.email
+                })
                 .then(() => {            
                     dispatch({ type: AD_CREATE });
                     Actions.adList();

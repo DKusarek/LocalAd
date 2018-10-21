@@ -51,7 +51,7 @@ class AdList extends Component {
     onCategoryPanelChange(value) {
         this.props.sortByCategoryChanged(value);
     }
-
+    
     sortFromNewest(array) {
         return array.sort((a, b) => {
           return b.publishDate < a.publishDate ? -1
@@ -67,7 +67,7 @@ class AdList extends Component {
             : 0;
         });
     }
-
+    
     sortArrayAsc(array) {
     return array.sort((a, b) => {
         return b.title > a.title ? -1
@@ -153,7 +153,7 @@ class AdList extends Component {
                     {this.renderCategoryPanel()}
                 </View>
                 <ListView
-                style={{ flex: 1 }}
+                    style={{ flex: 1 }}
                     enableEmptySections
                     dataSource={this.dataSource}
                     renderRow={this.renderRow}
