@@ -16,6 +16,7 @@ import {
     LAST_NAME_CHANGED,
     QUICK_LOG_IN
 } from './types';
+import pushNotifications from '../services/pushNotifications';
 
 export const quickLoginIn = () => {
     return {
@@ -69,7 +70,9 @@ export const loginUser = ({ email, password }) => {
     return (dispatch) => {
         dispatch({ type: LOGIN_USER });
         firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(user => loginUserSuccess(dispatch, user))
+        .then(user => {
+            loginUserSuccess(dispatch, user);
+        })
         .catch((error) => {
             console.log(error);
             authUserFailed(dispatch, error.message);
@@ -84,7 +87,8 @@ export const signInUser = ({ email, password, password2, firstName, lastName }) 
             authUserFailed(dispatch, 'Given passwords are not identical');
         } else {
             firebase.auth().createUserWithEmailAndPassword(email, password)
-                .then(({ user }) => { 
+                .then(({ user }) => {                     
+                    pushNotifications(user);
                     firebase.database().ref('userInfo')
                     .push({ 
                         firstName, 
