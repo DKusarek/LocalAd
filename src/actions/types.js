@@ -39,3 +39,7 @@ export const TAG_DELETE = 'tag_delete';
 export const ADD_MESSAGE = 'add_message';
 export const FETCH_MESSAGES = 'fetch_messages';
 export const MESSAGE_RECIVED = 'message_received';
+export const FETCH_RECENT_USERS = 'fetch_recent_users';
+export const FETCH_ALL_USERS = 'fetch_all_users';
+export const OPEN_CHAT = 'open_chat';
+

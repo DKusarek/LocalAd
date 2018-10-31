@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, Image } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
-import { getPicture, updatePicture } from '../actions';
+import { getPicture, updatePicture, contactWithAdvertaiser } from '../actions';
 import { Panel, PanelSection, Button, Inform } from './common';
 
 class AdWithDetails extends Component {
@@ -24,8 +24,10 @@ class AdWithDetails extends Component {
 
     onContactAdvertiserPress() {
         const { currentUser } = firebase.auth();
-        if (currentUser.email === this.props.ad.owner) {
+        if (currentUser.uid === this.props.ad.owner) {
             this.setState({ showModal: !this.state.showModal });           
+        } else {
+            this.props.contactWithAdvertaiser(this.props.ad.owner);
         }
     }
 
@@ -107,4 +109,4 @@ const mapStateToProps = (state) => {
     return { image };
 };
 
-export default connect(mapStateToProps, { getPicture, updatePicture })(AdWithDetails);
+export default connect(mapStateToProps, { getPicture, updatePicture, contactWithAdvertaiser })(AdWithDetails);

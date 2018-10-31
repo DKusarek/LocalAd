@@ -3,12 +3,17 @@ import { GiftedChat } from 'react-native-gifted-chat';
 import { 
     ADD_MESSAGE,
     FETCH_MESSAGES,
-    MESSAGE_RECIVED
+    MESSAGE_RECIVED,
+    FETCH_RECENT_USERS,
+    FETCH_ALL_USERS,
+    OPEN_CHAT
 } from '../actions/types';
 
 const INITIAL_STATE = {
     isNew: false, 
-    messages: []
+    messages: [],
+    recentUsers: [],
+    allUsers: []
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -29,6 +34,12 @@ export default (state = INITIAL_STATE, action) => {
         } 
         return { ...state };        
     }
+    case FETCH_RECENT_USERS:
+        return { ...state, recentUsers: action.payload };
+    case FETCH_ALL_USERS:
+        return { ...state, allUsers: action.payload };
+    case OPEN_CHAT:
+        return { ...INITIAL_STATE };
     default:
       return state;
   }

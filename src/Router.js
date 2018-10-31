@@ -17,6 +17,8 @@ import ChangePassword from './components/AuthPanel/ChangePassword';
 import Chat from './components/ChatPanel/Chat';
 import AdWithDetails from './components/AdWithDetails';
 import AdWithDetailsGuest from './components/AdWithDetailsGuest';
+import ChatMainPanel from './components/ChatPanel/ChatMainPanel';
+import AllUsersList from './components/ChatPanel/AllUsersList';
 
 class RouterComponent extends Component { 
     
@@ -71,7 +73,7 @@ class RouterComponent extends Component {
                             leftButtonIconStyle={chatButtonStyle}
                             rightButtonImage={require('./images/menu.png')}                       
                             rightButtonIconStyle={menuButtonStyle}
-                            onLeft={() => { Actions.chatView(); }} 
+                            onLeft={() => { Actions.chatMainPanel(); }} 
                             onRight={() => { Actions.userMenu(); }}
                         />
                         <Scene
@@ -139,9 +141,27 @@ class RouterComponent extends Component {
                     </Scene>     
                     <Scene key="chat">
                         <Scene 
+                            key="chatMainPanel" 
+                            component={ChatMainPanel} 
+                            back
+                            backButtonTintColor="#fff"
+                            navigationBarStyle={navigationStyle}
+                            titleStyle={mainTitleStyle}
+                        />
+                        <Scene 
+                            key="allUsersList" 
+                            component={AllUsersList} 
+                            back
+                            backButtonTintColor="#fff"
+                            navigationBarStyle={navigationStyle}
+                            titleStyle={mainTitleStyle}
+                        />
+                        <Scene 
                             key="chatView" 
                             component={Chat} 
+                            navTransparent
                             back
+                            onBack={() => Actions.chatMainPanel()}
                             backButtonTintColor="#fff"
                             navigationBarStyle={navigationStyle}
                             titleStyle={mainTitleStyle}
