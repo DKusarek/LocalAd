@@ -86,7 +86,8 @@ class AdList extends Component {
       
     showOnlyFromCategory(category) {
         if (category !== '') {
-            this.props.adsChangedOrder(this.props.originalAds.filter((ad) => ad.category === category));
+            this.props.adsChangedOrder(
+                this.props.originalAds.filter((ad) => ad.category === category));
         } else {
             this.props.adsChangedOrder(this.props.originalAds);
         }
@@ -104,7 +105,8 @@ class AdList extends Component {
         if (this.props.categoryPanel) {
             return (
                 <CategoryPanel 
-                    onChangeServicesAndCompanies={this.onCategoryPanelChange.bind(this, 'Services And Companies')}
+                    onChangeServicesAndCompanies={
+                        this.onCategoryPanelChange.bind(this, 'Services And Companies')}
                     onChangeFashion={this.onCategoryPanelChange.bind(this, 'Fashion')}
                     onChangeSportAndHobby={this.onCategoryPanelChange.bind(this, 'Sport And Hobby')}
                     onChangeElectronics={this.onCategoryPanelChange.bind(this, 'Electronics')}

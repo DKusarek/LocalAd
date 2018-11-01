@@ -1,7 +1,7 @@
 import {
     SET_MARKER_LOCATION,
     CITY_NAME_CHANGED,
-    UPDATE_MAP_REGION   
+    UPDATE_MAP_REGION
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -14,7 +14,7 @@ const INITIAL_STATE = {
         latitude: 50.0619474,
         longitude: 19.9368564,
         latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        longitudeDelta: 0.0421
     }
 };
 

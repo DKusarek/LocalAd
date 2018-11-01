@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, Picker } from 'react-native';
 import { connect } from 'react-redux';
+import { Location } from 'expo';
 import { Actions } from 'react-native-router-flux';
-import { adUpdate, getDefaultImage } from '../actions';
+import { adUpdate, getDefaultImage, setMarkerCoords } from '../actions';
 import { Button, Input, MultilineInput, PanelSection } from './common';
 import TagInput from './Tag/TagInput';
 
@@ -10,7 +11,15 @@ class AdForm extends Component {
     componentWillMount() {
         if (this.props.image === undefined) {
             this.props.getDefaultImage();
-        }
+        }     
+        Location.getCurrentPositionAsync()
+        .then((result) => {
+            this.props.setMarkerCoords({
+                longitude: result.coords.longitude,
+                latitude: result.coords.latitude
+            });
+        })
+        .catch((error) => console.log(error));        
     }
 
     getTags() {
@@ -66,7 +75,7 @@ class AdForm extends Component {
                 </PanelSection>
                 <TagInput />
                 <PanelSection>
-                    <Button>
+                    <Button onPress={() => Actions.locationPanel()}>
                         Location
                     </Button>
                 </PanelSection>                
@@ -101,4 +110,4 @@ const mapStateToProps = (state) => {
 };
 
 
-export default connect(mapStateToProps, { adUpdate, getDefaultImage })(AdForm);
+export default connect(mapStateToProps, { adUpdate, getDefaultImage, setMarkerCoords })(AdForm);

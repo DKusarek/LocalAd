@@ -2,19 +2,23 @@ import React, { Component } from 'react';
 import { View, TextInput, Dimensions, Text } from 'react-native';
 import { Location, MapView } from 'expo';
 import { connect } from 'react-redux';
-import { setMarkerCoords, cityNameChanged, updateMapRegion } from '../../actions';
+import { setMarkerCoords, cityNameChanged, updateMapRegion, saveLocation } from '../../actions';
 import { Button, Panel, PanelSection, Inform } from './../common';
 
 
 class LocationPanel extends Component {
     state = { showModal: false };
 
-    componentDidMount() {
-        this.props.updateMapRegion(
-            this.props.markerCoords.longitude, 
-            this.props.markerCoords.latitude
-        );
-    }
+    onButtonPress() {
+        Location.getCurrentPositionAsync()
+        .then((result) => {
+            this.props.setMarkerCoords({
+                longitude: result.coords.longitude,
+                latitude: result.coords.latitude
+            });
+        })
+        .catch((error) => console.log(error));
+    }    
 
     onCityNameChange(text) {
         this.props.cityNameChanged(text);
@@ -40,15 +44,22 @@ class LocationPanel extends Component {
         .catch(error => console.log(error));
     }
 
+    onSaveButtonPress() {
+        this.props.saveLocation(this.props.markerCoords);
+    }
+
     render() {
-        const { container, map, inputStyle, labelStyle } = styles;
+        const { container, map, inputStyle, labelStyle, saveButton } = styles;
         return (
             <View>
             <Panel>
                 <PanelSection>
-                    <Text style={labelStyle}>Change location</Text>
+                    <Button onPress={this.onButtonPress.bind(this)}>Get Current Location</Button>
+                </PanelSection>
+                <PanelSection>
+                    <Text style={labelStyle}>Or type city name</Text>
                     <TextInput 
-                        placeholder="Type city name"
+                        placeholder="Cracow"
                         onChangeText={this.onCityNameChange.bind(this)}    
                         value={this.props.cityName}                        
                         underlineColorAndroid='transparent'
@@ -57,7 +68,7 @@ class LocationPanel extends Component {
                 </PanelSection>
                 
                 <PanelSection>
-                    <Button onPress={this.onButtonShowPress.bind(this)}>Change Location</Button>
+                    <Button onPress={this.onButtonShowPress.bind(this)}>Show on map</Button>
                 </PanelSection>
                 <Inform
                     visible={this.state.showModal}
@@ -73,10 +84,14 @@ class LocationPanel extends Component {
                 >
                 <MapView.Marker
                     coordinate={this.props.markerCoords}
-                    title={'Advertaiser Localization'}
+                    title={'Cos'}
+                    description={'Gdizes'}
                 />
                 </MapView>                
-            </View>   
+            </View>            
+            <View style={saveButton}>
+                <Button onPress={this.onSaveButtonPress.bind(this)}>Save Location</Button>
+            </View>
         </View>
         );                
     }
@@ -85,14 +100,14 @@ class LocationPanel extends Component {
 const styles = {
     container: {
         position: 'absolute',
-        top: 130,
+        top: 185,
         left: 5,
         right: 0,
         bottom: 0,
         justifyContent: 'flex-end',
         alignItems: 'center',
         width: Dimensions.get('window').width - 10, 
-        height: Dimensions.get('window').height - 220
+        height: Dimensions.get('window').height - 330
     },
     map: {
         position: 'absolute',
@@ -114,6 +129,16 @@ const styles = {
         fontSize: 18,
         fontWeight: '500',
         padding: 10
+    },
+    saveButton: {
+        position: 'absolute',
+        top: Dimensions.get('window').height - 140,
+        left: 5,
+        right: 0,
+        bottom: 0,
+        backgroundColor: '#fff',
+        height: 50,
+        width: Dimensions.get('window').width - 10
     }
 };
 
@@ -123,4 +148,4 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, 
-    { setMarkerCoords, cityNameChanged, updateMapRegion })(LocationPanel);
+    { setMarkerCoords, cityNameChanged, updateMapRegion, saveLocation })(LocationPanel);

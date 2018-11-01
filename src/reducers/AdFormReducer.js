@@ -5,7 +5,8 @@ import {
     AD_TAG_ADD,
     AD_TAG_DELETE,
     GET_DEFAULT_IMAGE,
-    AD_SAVE_SUCCESS
+    AD_SAVE_SUCCESS,
+    SET_MARKER_LOCATION
 } from '../actions/types';
 
 const INITIAL_STATE = { 
@@ -13,7 +14,8 @@ const INITIAL_STATE = {
     description: '',
     category: '',
     image: null,
-    tags: []
+    tags: [],
+    location: {}
  };
 
  export default (state = INITIAL_STATE, action) => {
@@ -27,6 +29,8 @@ const INITIAL_STATE = {
             return INITIAL_STATE;
         case AD_ADD_PICTURE:
             return { ...state, image: action.payload };
+        case SET_MARKER_LOCATION:
+            return { ...state, location: action.payload };
         case GET_DEFAULT_IMAGE:
             return { ...state, image: action.payload };
         case AD_TAG_ADD:

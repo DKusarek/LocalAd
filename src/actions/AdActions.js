@@ -22,7 +22,7 @@ export const adUpdate = ({ prop, value }) => {
     };
 };
 
-export const adCreate = ({ title, description, category, image }) => {
+export const adCreate = ({ title, description, category, image, markerCoords }) => {
     const { currentUser } = firebase.auth();
     const adUuid = uuid.v1();
     const uploadImage = async(uri) => {
@@ -48,7 +48,8 @@ export const adCreate = ({ title, description, category, image }) => {
                     image, 
                     publishDate, 
                     adUuid, 
-                    owner: currentUser.email
+                    owner: currentUser.uid,
+                    location: markerCoords
                 })
                 .then(() => {            
                     dispatch({ type: AD_CREATE });

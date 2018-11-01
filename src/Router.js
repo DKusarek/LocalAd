@@ -19,6 +19,7 @@ import AdWithDetails from './components/AdWithDetails';
 import AdWithDetailsGuest from './components/AdWithDetailsGuest';
 import ChatMainPanel from './components/ChatPanel/ChatMainPanel';
 import AllUsersList from './components/ChatPanel/AllUsersList';
+import StaticMap from './components/LocationPanel/StaticMap';
 
 class RouterComponent extends Component { 
     
@@ -29,17 +30,10 @@ class RouterComponent extends Component {
             <Router sceneStyle={{ backgroundColor: '#e8f6fd' }}>
                 <Scene key="root" hideNavBar>
                     <Scene key="auth">
-                    
-                        <Scene 
-                            key="locationPanel"
-                            component={LocationPanel}
-                            initial
-                            navigationBarStyle={navigationStyle}
-                            navBarButtonColor='#fff'
-                        />
                         <Scene 
                             key="mainView" 
                             component={MainView} 
+                            initial
                             navigationBarStyle={navigationStyle}
                             titleStyle={mainTitleStyle}
                         />
@@ -140,6 +134,14 @@ class RouterComponent extends Component {
                         <Scene 
                             key="adWithDetails" 
                             component={AdWithDetails} 
+                            back
+                            backButtonTintColor="#fff"
+                            navigationBarStyle={navigationStyle}
+                            titleStyle={mainTitleStyle}
+                        />
+                        <Scene 
+                            key="staticMap" 
+                            component={StaticMap} 
                             back
                             backButtonTintColor="#fff"
                             navigationBarStyle={navigationStyle}
