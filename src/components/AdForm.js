@@ -9,7 +9,8 @@ import TagInput from './Tag/TagInput';
 
 class AdForm extends Component {
     componentWillMount() {
-        if (this.props.image === undefined) {
+        console.log(this.props.image);
+        if (this.props.image === null) {
             this.props.getDefaultImage();
         }     
         Location.getCurrentPositionAsync()

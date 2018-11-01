@@ -8,10 +8,12 @@ import {
     sortByChanged, 
     adsChangedOrder, 
     showCategoryPanel,
-    sortByCategoryChanged
+    showLocationPanel,
+    sortByCategoryChanged,
+    searchAd
 } from '../actions';
 import Ad from './Ad';
-import { CategoryPanel } from './common';
+import { CategoryPanel, LocationPanel } from './common';
 
 class AdList extends Component {    
     componentWillMount() {
@@ -42,6 +44,9 @@ class AdList extends Component {
                 break;
             case 'Category':
                 this.props.showCategoryPanel();
+                break;
+            case 'Location':
+                this.props.showLocationPanel();
                 break;
             default:
                 break;
@@ -93,14 +98,25 @@ class AdList extends Component {
         }
     }
 
-    createDataSource({ ads }) {
+    createDataSource({ ads, filteredAds, searchText }) {
         const ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
         });
-
-        this.dataSource = ds.cloneWithRows(ads);
+        console.log(searchText);
+        if (searchText) {
+            this.dataSource = ds.cloneWithRows(filteredAds);            
+        } else {
+            this.dataSource = ds.cloneWithRows(ads);  
+        }
     }
 
+    handleSearch(text) {
+        var adTitles = [];
+        this.props.ads.forEach(element => {
+            adTitles.push(element.title);
+        });
+        this.props.searchAd(text, adTitles);
+    }
     renderCategoryPanel() {
         if (this.props.categoryPanel) {
             return (
@@ -119,6 +135,14 @@ class AdList extends Component {
         }
     }
 
+    renderLocationPanel() {
+        if (this.props.locationPanel) {
+            return (
+                <LocationPanel />
+            );
+        }
+    }
+
     renderRow(ad) {
         return <Ad ad={ad} />;
     }
@@ -129,6 +153,7 @@ class AdList extends Component {
             <View style={{ flex: 1 }}>
                 <View style={mainViewStyle}>
                     <SearchBar
+                        onChangeText={this.handleSearch.bind(this)}
                         showLoading
                         lightTheme
                         inputStyle={inputStyle}
@@ -148,11 +173,15 @@ class AdList extends Component {
                             <Picker.Item label="Newest first" value="Newest" />
                             <Picker.Item label="Oldest first" value="Oldest" />
                             <Picker.Item label="By Category" value="Category" />
+                            <Picker.Item label="By Location" value="Location" />
                         </Picker>
                     </View>
                 </View>
                 <View>
-                    {this.renderCategoryPanel()}
+                    {this.renderCategoryPanel()}                    
+                </View>
+                <View>
+                    {this.renderLocationPanel()}                    
                 </View>
                 <ListView
                     style={{ flex: 1 }}
@@ -203,8 +232,13 @@ const mapStateToProps = state => {
     const originalAds = _.map(state.ads.originalAds, (val, uid) => {
         return { ...val, uid };
       });
-    const { categoryPanel, sortBy, selectedCategory } = state.sortOrder;
-    return { ads, originalAds, sortBy, categoryPanel, selectedCategory }; 
+    const filteredAds = _.map(state.ads.filteredAds, (val, uid) => {
+        return { ...val, uid };
+    });
+    console.log(state.ads);
+    const searchText = state.ads.searchText;
+    const { categoryPanel, locationPanel, sortBy, selectedCategory } = state.sortOrder;
+    return { ads, originalAds, filteredAds, searchText, sortBy, categoryPanel, locationPanel, selectedCategory }; 
   };
 
   export default connect(mapStateToProps, { 
@@ -212,5 +246,7 @@ const mapStateToProps = state => {
       sortByChanged, 
       adsChangedOrder, 
       showCategoryPanel,
-      sortByCategoryChanged
+      showLocationPanel,
+      sortByCategoryChanged,
+      searchAd
 })(AdList);

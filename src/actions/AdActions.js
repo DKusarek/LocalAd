@@ -10,9 +10,12 @@ import {
     SORT_BY_CHANGED,
     ADS_CHANGED_ORDER,
     SHOW_CATEGORY_PANEL,
+    SHOW_LOCATION_PANEL,
     SORT_BY_CATEGORY_CHANGED,
     ADS_TO_EDIT_FETCH_SUCCESS,
-    AD_SAVE_SUCCESS
+    AD_SAVE_SUCCESS,
+    FILTER_ADS,
+    SEARCH_EMPTY
  } from './types';
 
 export const adUpdate = ({ prop, value }) => {
@@ -22,7 +25,7 @@ export const adUpdate = ({ prop, value }) => {
     };
 };
 
-export const adCreate = ({ title, description, category, image, markerCoords }) => {
+export const adCreate = ({ title, description, category, image, markerCoords, tags }) => {
     const { currentUser } = firebase.auth();
     const adUuid = uuid.v1();
     const uploadImage = async(uri) => {
@@ -49,7 +52,8 @@ export const adCreate = ({ title, description, category, image, markerCoords }) 
                     publishDate, 
                     adUuid, 
                     owner: currentUser.uid,
-                    location: markerCoords
+                    location: markerCoords,
+                    tags
                 })
                 .then(() => {            
                     dispatch({ type: AD_CREATE });
@@ -87,6 +91,33 @@ export const adsFetch = () => {
             }
             dispatch({ type: ADS_FETCH_SUCCESS, payload: ads });
         });
+    };
+};
+
+export const searchAd = (text, adTitles) => {
+    return (dispatch) => {
+        if (text !== '') {
+            firebase.database().ref('/users')
+            .on('value', snapshot => {
+                var ads = {};
+                if (snapshot.val() != null) {
+                    Object.keys(snapshot.val()).forEach((key) => {
+                        Object.keys(snapshot.val()[key]).forEach((insideKey) => {
+                            Object.keys(snapshot.val()[key][insideKey]).forEach((moreInsideKey) => {
+                                if (snapshot.val()[key][insideKey][moreInsideKey].title.includes(text) && 
+                                adTitles.includes(snapshot.val()[key][insideKey][moreInsideKey].title)) {
+                                    console.log("weszlo " + snapshot.val()[key][insideKey][moreInsideKey].title);
+                                    ads[moreInsideKey] = (snapshot.val()[key][insideKey][moreInsideKey]);
+                                }
+                            });
+                        });
+                    });
+                }
+                dispatch({ type: FILTER_ADS, payload: ads });
+            });
+        } else {
+            dispatch({ type: SEARCH_EMPTY });
+        }
     };
 };
 
@@ -175,6 +206,13 @@ export const showCategoryPanel = () => {
         type: SHOW_CATEGORY_PANEL
     };
 };
+
+export const showLocationPanel = () => {
+    return {
+        type: SHOW_LOCATION_PANEL
+    };
+};
+
 
 export const sortByCategoryChanged = (category) => {
     return {

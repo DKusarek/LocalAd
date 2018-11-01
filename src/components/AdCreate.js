@@ -6,13 +6,14 @@ import AdForm from './AdForm';
 
 class AdCreate extends Component {
     onButtonPress() {
-        const { title, description, category, image, markerCoords } = this.props;
+        const { title, description, category, image, markerCoords, tags } = this.props;
         this.props.adCreate({ 
             title, 
             description, 
             category: category || 'Services And Companies',
             image,
-            markerCoords
+            markerCoords,
+            tags
         });
     }
 
@@ -33,7 +34,8 @@ class AdCreate extends Component {
 const mapStateToProps = (state) => {
     const { title, description, category, image } = state.adForm;
     const { markerCoords } = state.location;
-    return { title, description, category, image, markerCoords };
+    const { tags } = state.tags;
+    return { title, description, category, image, markerCoords, tags };
 };
 
 export default connect(mapStateToProps,

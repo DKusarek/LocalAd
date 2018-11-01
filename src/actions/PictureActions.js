@@ -44,6 +44,7 @@ export const getDefaultImage = () => {
         .child('images/localad.png');
         ref.getDownloadURL()
         .then((url) => {
+            console.log(url);
            dispatch({ type: GET_DEFAULT_IMAGE, payload: url });
         })
         .catch((error) => console.log(error.message));

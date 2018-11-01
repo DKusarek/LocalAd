@@ -8,3 +8,4 @@ export * from './SearchInput';
 export * from './CategoryPanel';
 export * from './Confirm';
 export * from './Inform';
+export * from './LocationPanel';

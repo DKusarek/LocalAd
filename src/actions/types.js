@@ -17,6 +17,8 @@ export const AD_UPDATE = 'ad_update';
 export const AD_CREATE = 'ad_create';
 export const ADS_FETCH_SUCCESS = 'ads_fetch_success';
 export const AD_TAG_ADD = 'ad_tag_add';
+export const FILTER_ADS = 'filter_ads';
+export const SEARCH_EMPTY = 'search_empty';
 export const AD_TAG_DELETE = 'ad_tag_delete';
 
 export const ADS_TO_EDIT_FETCH_SUCCESS = 'ads_to_edit_fetch_success';
@@ -30,6 +32,7 @@ export const UPDATE_PICTURE = 'update_picture';
 export const SORT_BY_CHANGED = 'sort_by_changed';
 export const ADS_CHANGED_ORDER = 'add_changed_order';
 export const SHOW_CATEGORY_PANEL = 'show_category_panel';
+export const SHOW_LOCATION_PANEL = 'show_location_panel';
 export const SORT_BY_CATEGORY_CHANGED = 'sort_by_category_changed';
 
 export const TAG_ADD = 'tag_add';
