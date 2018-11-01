@@ -6,6 +6,7 @@ import PictureReducer from './PictureReducer';
 import TagReducer from './TagReducer';
 import SortByReducer from './SortByReducer';
 import ChatReducer from './ChatReducer';
+import LocationReducer from './LocationReducer';
 
 export default combineReducers({
     authorization: AuthorizationReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
     picture: PictureReducer,
     tags: TagReducer,
     sortOrder: SortByReducer,
-    chat: ChatReducer
+    chat: ChatReducer,
+    location: LocationReducer
 });

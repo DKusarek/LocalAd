@@ -109,4 +109,5 @@ const mapStateToProps = (state) => {
     return { image };
 };
 
-export default connect(mapStateToProps, { getPicture, updatePicture, contactWithAdvertaiser })(AdWithDetails);
+export default connect(mapStateToProps, 
+    { getPicture, updatePicture, contactWithAdvertaiser })(AdWithDetails);

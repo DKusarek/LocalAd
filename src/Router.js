@@ -29,10 +29,17 @@ class RouterComponent extends Component {
             <Router sceneStyle={{ backgroundColor: '#e8f6fd' }}>
                 <Scene key="root" hideNavBar>
                     <Scene key="auth">
+                    
+                        <Scene 
+                            key="locationPanel"
+                            component={LocationPanel}
+                            initial
+                            navigationBarStyle={navigationStyle}
+                            navBarButtonColor='#fff'
+                        />
                         <Scene 
                             key="mainView" 
                             component={MainView} 
-                            initial
                             navigationBarStyle={navigationStyle}
                             titleStyle={mainTitleStyle}
                         />

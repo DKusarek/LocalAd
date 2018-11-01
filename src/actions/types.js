@@ -43,3 +43,6 @@ export const FETCH_RECENT_USERS = 'fetch_recent_users';
 export const FETCH_ALL_USERS = 'fetch_all_users';
 export const OPEN_CHAT = 'open_chat';
 
+export const SET_MARKER_LOCATION = 'set_marker_location';
+export const CITY_NAME_CHANGED = 'city_name_changed';
+export const UPDATE_MAP_REGION = 'update_map_region';
