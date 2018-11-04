@@ -25,7 +25,7 @@ class RouterComponent extends Component {
     
     render() {
         const { menuButtonStyle, chatButtonStyle, navigationStyle, mainTitleStyle } = styles;
-
+        
         return (
             <Router sceneStyle={{ backgroundColor: '#e8f6fd' }}>
                 <Scene key="root" hideNavBar>
@@ -109,7 +109,7 @@ class RouterComponent extends Component {
                         />
                         <Scene
                             key="adEdit"
-                            component={AdEdit}
+                            component={AdEdit}                      
                             navigationBarStyle={navigationStyle}
                             navBarButtonColor='#fff'
                         />

@@ -3,7 +3,7 @@ import { View, Text, Picker } from 'react-native';
 import { connect } from 'react-redux';
 import { Location } from 'expo';
 import { Actions } from 'react-native-router-flux';
-import { adUpdate, getDefaultImage, setMarkerCoords } from '../actions';
+import { adUpdate, getDefaultImage, setMarkerCoords, tagsFetch } from '../actions';
 import { Button, Input, MultilineInput, PanelSection } from './common';
 import TagInput from './Tag/TagInput';
 
@@ -24,7 +24,10 @@ class AdForm extends Component {
     }
 
     getTags() {
-       // console.log(this.props);
+       if (this.props.tags !== undefined) {
+           console.log('weszlo');
+           this.props.tagsFetch(this.props.tags);
+       }
     }
 
     render() {
@@ -106,9 +109,9 @@ const styles = {
 
 const mapStateToProps = (state) => {
     const { title, description, category, image, tags } = state.adForm;
-    //console.log(tags);
+    console.log(tags);
     return { title, description, category, image, tags };
 };
 
 
-export default connect(mapStateToProps, { adUpdate, getDefaultImage, setMarkerCoords })(AdForm);
+export default connect(mapStateToProps, { adUpdate, getDefaultImage, setMarkerCoords, tagsFetch })(AdForm);

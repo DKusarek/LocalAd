@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { tagAdd, tagNameChanged, tagDelete, adTagAdd, adTagDelete } from '../../actions';
-import { Button, Input, Panel, PanelSection } from '../common';
+import { Button, Input, PanelSection } from '../common';
 import Tag from './Tag';
 
 class TagInput extends Component {
@@ -11,8 +11,10 @@ class TagInput extends Component {
     }
 
     onButtonAddPress() {
-        this.props.tagAdd(this.props.tagName);
-        this.props.adTagAdd(this.props.tagName);
+        if (this.props.tagName !== '') {
+            this.props.tagAdd(this.props.tagName);
+            this.props.adTagAdd(this.props.tagName);
+        }
     }
 
     deleteTag(tagName) {
@@ -44,14 +46,14 @@ class TagInput extends Component {
                             key={y} 
                             tagName={y} 
                         />);
-                    })}
+                    })}                    
                 </View>
                 </View>
         );
     }
 }
 
-const styles= {
+const styles = {
     buttonStyle: {
         width: 50, 
         height: 50, 

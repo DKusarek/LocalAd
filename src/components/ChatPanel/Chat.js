@@ -34,7 +34,7 @@ class Chat extends Component {
                         _id: currentUser.uid
                     }}
                 />
-                <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={80} />
+                <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={0} />
             </View>
         );
       }

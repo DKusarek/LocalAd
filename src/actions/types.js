@@ -20,6 +20,7 @@ export const AD_TAG_ADD = 'ad_tag_add';
 export const FILTER_ADS = 'filter_ads';
 export const SEARCH_EMPTY = 'search_empty';
 export const AD_TAG_DELETE = 'ad_tag_delete';
+export const CLEAR_AD_FORM = 'clear_ad_form';
 
 export const ADS_TO_EDIT_FETCH_SUCCESS = 'ads_to_edit_fetch_success';
 export const AD_SAVE_SUCCESS = 'ad_save_success';
@@ -40,6 +41,7 @@ export const CITY_NAME_CHANGED_LIST = 'city_name_changed_list';
 export const TAG_ADD = 'tag_add';
 export const TAG_NAME_CHANGED = 'tag_name_changed';
 export const TAG_DELETE = 'tag_delete';
+export const TAG_FETCH = 'tag_fetch';
 
 export const ADD_MESSAGE = 'add_message';
 export const FETCH_MESSAGES = 'fetch_messages';

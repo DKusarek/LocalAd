@@ -30,7 +30,6 @@ class AdList extends Component {
         if (this.props.selectedDistance !== nextProps.selectedDistance) {
             this.showOnlyForDistance(nextProps.selectedDistance, nextProps.cityName);
         }
-        console.log(nextProps.cityName, nextProps.selectedDistance);
         this.createDataSource(nextProps);
     }
 
@@ -117,10 +116,21 @@ class AdList extends Component {
         if (cityName !== '') {
             Location.geocodeAsync(this.props.cityName)
             .then(result => {
+                console.log(result);                
+                console.log(`${result[0].latitude - (Number(distance) / 110.574)} < ${this.props.originalAds[2].location.latitude} < ${result[0].latitude + (Number(distance) / 110.574)}`);
+                console.log(`${result[0].longitude - (Number(distance) / (111.320 * Math.cos(result[0].latitude)))} < ${this.props.originalAds[2].location.longitude} < ${result[0].longitude + (Number(distance) / (111.320 * Math.cos(result[0].latitude)))}`);
+                
+                this.props.adsChangedOrder(
                 this.props.originalAds.filter((ad) => 
-                    ad.locaion.latitude < result);
+                    ad.location !== undefined && ad.location.longitude !== undefined && ad.location.latitude !== undefined &&
+                    ad.location.latitude < result[0].latitude + (Number(distance) / 110.574) &&
+                    ad.location.latitude >= result[0].latitude - (Number(distance) / 110.574) &&
+                    ad.location.longitude < result[0].longitude + (Number(distance) / (111.320 * Math.cos(result[0].latitude))) &&
+                    ad.location.longitude >= result[0].longitude - (Number(distance) / (111.320 * Math.cos(result[0].latitude)))));
             })
-            .catch(error => console.log(error));
+            .catch(error => console.log(error));            
+        } else {
+            this.props.adsChangedOrder(this.props.originalAds);
         }
     }
 
@@ -138,11 +148,18 @@ class AdList extends Component {
 
     handleSearch(text) {
         var adTitles = [];
+        var adTags = [];
         this.props.ads.forEach(element => {
             adTitles.push(element.title);
+            if (element.tags !== undefined) {
+                element.tags.forEach(tag => {
+                    adTags.push(tag);
+                });
+            }
         });
-        this.props.searchAd(text, adTitles);
+        this.props.searchAd(text, adTitles, adTags);
     }
+
     renderCategoryPanel() {
         if (this.props.categoryPanel) {
             return (

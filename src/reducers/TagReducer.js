@@ -1,7 +1,8 @@
 import {
     TAG_ADD,
     TAG_NAME_CHANGED,
-    TAG_DELETE
+    TAG_DELETE,
+    TAG_FETCH
     
 } from '../actions/types';
 
@@ -25,6 +26,8 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, tagName: '', deleted: action.payload };
         case TAG_NAME_CHANGED:
             return { ...state, tagName: action.payload };
+        case TAG_FETCH:
+            return { ...state, tags: action.payload };
         default:
             return state;
     }

@@ -54,6 +54,20 @@ class AdWithDetails extends Component {
         }  
     }
 
+    renderTags() {         
+        var tagLine = '';
+        if (this.props.ad.tags !== undefined) {
+            this.props.ad.tags.forEach(tag => {
+                tagLine += `${tag} `;
+            });
+        }
+        if (tagLine !== '') {
+            return (
+                <Text style={styles.tagStyle}>{tagLine}</Text>
+            );
+        }
+    }
+
     render() {
         const { title, description, category } = this.props.ad;
         
@@ -75,6 +89,7 @@ class AdWithDetails extends Component {
                             <Text style={styles.descriptionStyle}>
                                 {description}
                             </Text>
+                            {this.renderTags()}
                         </View>  
                     </PanelSection>
                     <PanelSection>
@@ -141,6 +156,11 @@ const styles = {
         right: 0,
         bottom: 0,
     },
+    tagStyle: {
+        fontSize: 12,
+        color: '#9fadc4',
+        padding: 5  
+    }
 };
 
 const mapStateToProps = (state) => {

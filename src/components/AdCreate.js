@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { adUpdate, adCreate } from '../actions';
+import { adUpdate, adCreate, clearForm } from '../actions';
 import { Panel, PanelSection, Button } from './common';
 import AdForm from './AdForm';
 
 class AdCreate extends Component {
+    componentDidMount() {
+        this.props.clearForm();
+    }
+
     onButtonPress() {
         const { title, description, category, image, markerCoords, tags } = this.props;
         this.props.adCreate({ 
@@ -39,4 +43,4 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps,
-    { adUpdate, adCreate })(AdCreate);
+    { adUpdate, adCreate, clearForm })(AdCreate);

@@ -17,7 +17,8 @@ import {
     FILTER_ADS,
     SEARCH_EMPTY,
     SORT_BY_LOCATION_CHANGED,
-    CITY_NAME_CHANGED_LIST
+    CITY_NAME_CHANGED_LIST,
+    CLEAR_AD_FORM
  } from './types';
 
 export const adUpdate = ({ prop, value }) => {
@@ -39,9 +40,7 @@ export const adCreate = ({ title, description, category, image, markerCoords, ta
 
     return (dispatch) => { 
         const today = new Date();
-        const publishDate = today.getFullYear() + '-' 
-        + (today.getMonth() + 1) + '-' 
-        + today.getDate();
+        const publishDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
 
         uploadImage(image)
             .then(() => {
@@ -96,7 +95,7 @@ export const adsFetch = () => {
     };
 };
 
-export const searchAd = (text, adTitles) => {
+export const searchAd = (text, adTitles, adTags) => {
     return (dispatch) => {
         if (text !== '') {
             firebase.database().ref('/users')
@@ -108,8 +107,14 @@ export const searchAd = (text, adTitles) => {
                             Object.keys(snapshot.val()[key][insideKey]).forEach((moreInsideKey) => {
                                 if (snapshot.val()[key][insideKey][moreInsideKey].title.includes(text) && 
                                 adTitles.includes(snapshot.val()[key][insideKey][moreInsideKey].title)) {
-                                    console.log("weszlo " + snapshot.val()[key][insideKey][moreInsideKey].title);
                                     ads[moreInsideKey] = (snapshot.val()[key][insideKey][moreInsideKey]);
+                                }
+                                if (snapshot.val()[key][insideKey][moreInsideKey].tags !== undefined) { 
+                                    snapshot.val()[key][insideKey][moreInsideKey].tags.forEach(tag => {
+                                        if (tag.includes(text) && adTags.includes(tag)) {
+                                            ads[moreInsideKey] = (snapshot.val()[key][insideKey][moreInsideKey]);
+                                        }
+                                    });
                                 }
                             });
                         });
@@ -134,9 +139,7 @@ export const adSave = ({ title, description, category, image, adUuid, uid }) => 
 
     return (dispatch) => {        
         const today = new Date();
-        const publishDate = today.getFullYear() + '-' 
-        + (today.getMonth() + 1) + '-' 
-        + today.getDate();
+        const publishDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
         uploadImage(image)
             .then(() => {
                 firebase.database().ref(`/users/${currentUser.uid}/ads/${uid}`)
@@ -149,7 +152,7 @@ export const adSave = ({ title, description, category, image, adUuid, uid }) => 
                     console.log(error);
                 });
             })
-            .catch((error)=> {
+            .catch((error) => {
                 console.log(error);
             });
     };
@@ -234,5 +237,12 @@ export const cityNameChangedList = (text) => {
     return {
         type: CITY_NAME_CHANGED_LIST,
         payload: text        
+    };
+};
+
+export const clearForm = () => {
+    console.log('weszlo');
+    return {
+        type: CLEAR_AD_FORM
     };
 };

@@ -1,7 +1,8 @@
 import { 
     TAG_ADD,
     TAG_NAME_CHANGED,
-    TAG_DELETE
+    TAG_DELETE,
+    TAG_FETCH
  } from './types';
 
 export const tagAdd = (tag) => {
@@ -22,5 +23,12 @@ export const tagDelete = (tag) => {
     return {
         type: TAG_DELETE,
         payload: tag
+    };
+};
+
+export const tagsFetch = (tags) => {
+    return {
+        type: TAG_FETCH,
+        payload: tags
     };
 };

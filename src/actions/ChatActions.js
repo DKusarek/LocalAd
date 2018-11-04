@@ -28,12 +28,7 @@ export const contactWithAdvertaiser = (owner) => {
 export const addMessages = (message, userUid) => {
     const { currentUser } = firebase.auth();   
     message[0].user._id = currentUser.uid;
-    const today = new Date();
-    const publishDate = today.getFullYear() + '-' 
-    + (today.getMonth() + 1) + '-' 
-    + today.getDate();
-
-    message[0].createdAt = publishDate;
+    message[0].createdAt = new Date();
     
     return (dispatch) => {      
         firebase.database().ref('/userInfo')

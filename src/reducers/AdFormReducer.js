@@ -6,7 +6,8 @@ import {
     AD_TAG_DELETE,
     GET_DEFAULT_IMAGE,
     AD_SAVE_SUCCESS,
-    SET_MARKER_LOCATION
+    SET_MARKER_LOCATION,
+    CLEAR_AD_FORM
 } from '../actions/types';
 
 const INITIAL_STATE = { 
@@ -43,6 +44,8 @@ const INITIAL_STATE = {
                 state.tags.splice(state.tags.indexOf(action.payload), 1);
             }
             return { ...state };
+        case CLEAR_AD_FORM:
+            return { ...INITIAL_STATE };
         default:
             return state;
     }
