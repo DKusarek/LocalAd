@@ -2,14 +2,18 @@ import {
     SORT_BY_CHANGED,
     SHOW_CATEGORY_PANEL,
     SORT_BY_CATEGORY_CHANGED,
-    SHOW_LOCATION_PANEL
+    SORT_BY_LOCATION_CHANGED,
+    SHOW_LOCATION_PANEL,
+    CITY_NAME_CHANGED_LIST
 } from '../actions/types';
 
 const INITIAL_STATE = {
     sortBy: '',
     categoryPanel: false,
     selectedCategory: '',
-    locationPanel: false
+    locationPanel: false,
+    cityName: '',
+    selectedDistance: ''
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -25,6 +29,13 @@ export default (state = INITIAL_STATE, action) => {
                 categoryPanel: false, 
                 selectedCategory: action.payload 
             };
+        case SORT_BY_LOCATION_CHANGED:
+            return { ...state, 
+                locationPanel: false, 
+                selectedDistance: action.payload
+            };
+        case CITY_NAME_CHANGED_LIST:
+            return { ...state, cityName: action.payload };
         default:
             return state;
     }

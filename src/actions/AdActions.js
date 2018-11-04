@@ -15,7 +15,9 @@ import {
     ADS_TO_EDIT_FETCH_SUCCESS,
     AD_SAVE_SUCCESS,
     FILTER_ADS,
-    SEARCH_EMPTY
+    SEARCH_EMPTY,
+    SORT_BY_LOCATION_CHANGED,
+    CITY_NAME_CHANGED_LIST
  } from './types';
 
 export const adUpdate = ({ prop, value }) => {
@@ -218,5 +220,19 @@ export const sortByCategoryChanged = (category) => {
     return {
         type: SORT_BY_CATEGORY_CHANGED,
         payload: category
+    };
+};
+
+export const sortByLocationChanged = (distance) => {
+    return {
+        type: SORT_BY_LOCATION_CHANGED,
+        payload: distance
+    };
+};
+
+export const cityNameChangedList = (text) => {
+    return {
+        type: CITY_NAME_CHANGED_LIST,
+        payload: text        
     };
 };

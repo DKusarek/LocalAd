@@ -34,6 +34,8 @@ export const ADS_CHANGED_ORDER = 'add_changed_order';
 export const SHOW_CATEGORY_PANEL = 'show_category_panel';
 export const SHOW_LOCATION_PANEL = 'show_location_panel';
 export const SORT_BY_CATEGORY_CHANGED = 'sort_by_category_changed';
+export const SORT_BY_LOCATION_CHANGED = 'sort_by_location_changed';
+export const CITY_NAME_CHANGED_LIST = 'city_name_changed_list';
 
 export const TAG_ADD = 'tag_add';
 export const TAG_NAME_CHANGED = 'tag_name_changed';

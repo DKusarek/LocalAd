@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { SearchBar } from 'react-native-elements';
 import { Picker, View, ListView } from 'react-native';
 import { connect } from 'react-redux';
+import { Location } from 'expo';
 import { 
     adsFetch, 
     sortByChanged, 
@@ -10,7 +11,9 @@ import {
     showCategoryPanel,
     showLocationPanel,
     sortByCategoryChanged,
-    searchAd
+    sortByLocationChanged,
+    searchAd,
+    cityNameChangedList
 } from '../actions';
 import Ad from './Ad';
 import { CategoryPanel, LocationPanel } from './common';
@@ -24,6 +27,10 @@ class AdList extends Component {
         if (this.props.selectedCategory !== nextProps.selectedCategory) {
             this.showOnlyFromCategory(nextProps.selectedCategory);
         }
+        if (this.props.selectedDistance !== nextProps.selectedDistance) {
+            this.showOnlyForDistance(nextProps.selectedDistance, nextProps.cityName);
+        }
+        console.log(nextProps.cityName, nextProps.selectedDistance);
         this.createDataSource(nextProps);
     }
 
@@ -53,8 +60,16 @@ class AdList extends Component {
         }
     }
 
+    onCityNameChanged(text) {
+        this.props.cityNameChangedList(text);
+    }
+
     onCategoryPanelChange(value) {
         this.props.sortByCategoryChanged(value);
+    }
+
+    onLocationPanelChange(value) {
+        this.props.sortByLocationChanged(value);
     }
     
     sortFromNewest(array) {
@@ -98,6 +113,17 @@ class AdList extends Component {
         }
     }
 
+    showOnlyForDistance(distance, cityName) {
+        if (cityName !== '') {
+            Location.geocodeAsync(this.props.cityName)
+            .then(result => {
+                this.props.originalAds.filter((ad) => 
+                    ad.locaion.latitude < result);
+            })
+            .catch(error => console.log(error));
+        }
+    }
+
     createDataSource({ ads, filteredAds, searchText }) {
         const ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
@@ -138,7 +164,17 @@ class AdList extends Component {
     renderLocationPanel() {
         if (this.props.locationPanel) {
             return (
-                <LocationPanel />
+                <LocationPanel 
+                    value={this.props.cityName}
+                    onChangeText={this.onCityNameChanged.bind(this)}    
+                    onChange0={this.onLocationPanelChange.bind(this, '0')}
+                    onChange5={this.onLocationPanelChange.bind(this, '5')}
+                    onChange10={this.onLocationPanelChange.bind(this, '10')}
+                    onChange25={this.onLocationPanelChange.bind(this, '25')}
+                    onChange50={this.onLocationPanelChange.bind(this, '50')}
+                    onChange75={this.onLocationPanelChange.bind(this, '75')}                    
+                    onChange100={this.onLocationPanelChange.bind(this, '100')}
+                />
             );
         }
     }
@@ -235,10 +271,28 @@ const mapStateToProps = state => {
     const filteredAds = _.map(state.ads.filteredAds, (val, uid) => {
         return { ...val, uid };
     });
-    console.log(state.ads);
+
     const searchText = state.ads.searchText;
-    const { categoryPanel, locationPanel, sortBy, selectedCategory } = state.sortOrder;
-    return { ads, originalAds, filteredAds, searchText, sortBy, categoryPanel, locationPanel, selectedCategory }; 
+    const { 
+        categoryPanel, 
+        locationPanel, 
+        sortBy, 
+        selectedCategory, 
+        cityName, 
+        selectedDistance 
+    } = state.sortOrder;
+    return { 
+        ads, 
+        originalAds, 
+        filteredAds, 
+        searchText, 
+        sortBy, 
+        categoryPanel, 
+        locationPanel, 
+        selectedCategory,
+        cityName, 
+        selectedDistance   
+    }; 
   };
 
   export default connect(mapStateToProps, { 
@@ -248,5 +302,7 @@ const mapStateToProps = state => {
       showCategoryPanel,
       showLocationPanel,
       sortByCategoryChanged,
-      searchAd
+      sortByLocationChanged,
+      searchAd,
+      cityNameChangedList
 })(AdList);
