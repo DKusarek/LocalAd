@@ -7,6 +7,7 @@ import { Button, Panel, PanelSection, Inform } from './../common';
 
 
 class LocationPanel extends Component {
+    /* ... */
     state = { showModal: false };
 
     componentDidMount() {

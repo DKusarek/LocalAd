@@ -21,9 +21,9 @@ export default (state = INITIAL_STATE, action) => {
         case SORT_BY_CHANGED:
             return { ...state, sortBy: action.payload };
         case SHOW_CATEGORY_PANEL:
-            return { ...state, categoryPanel: true, sortBy: '' };
+            return { ...state, categoryPanel: true, sortBy: '', locationPanel: false };
         case SHOW_LOCATION_PANEL:
-            return { ...state, locationPanel: true, sortBy: '' };
+            return { ...state, locationPanel: true, sortBy: '', categoryPanel: false };
         case SORT_BY_CATEGORY_CHANGED:
             return { ...state, 
                 categoryPanel: false, 

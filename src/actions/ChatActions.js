@@ -40,7 +40,6 @@ export const addMessages = (message, userUid) => {
                         }
                     });
                 }
-                console.log(message);
                     firebase.database().ref(`/messages/${currentUser.uid}/${userUid}`)
                             .push({ message })
                             .then(() => {            

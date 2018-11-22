@@ -59,7 +59,8 @@ export const adCreate = ({ title, description, category, image, markerCoords, ta
                 .then(() => {            
                     dispatch({ type: AD_CREATE });
                     Actions.adList();
-                });
+                })
+                .catch((error) => console.log(error.message));    
             })
             .catch((error) => console.log(error.message));    
         };
@@ -71,7 +72,8 @@ export const adsFetchEdit = () => {
         firebase.database().ref(`/users/${currentUser.uid}/ads`)
         .on('value', snapshot => {
             dispatch({ type: ADS_TO_EDIT_FETCH_SUCCESS, payload: snapshot.val() });
-        });
+        })
+        .catch((error) => console.log(error.message));    
     };
 };
 
@@ -128,7 +130,7 @@ export const searchAd = (text, adTitles, adTags) => {
     };
 };
 
-export const adSave = ({ title, description, category, image, adUuid, uid }) => {
+export const adSave = ({ title, description, category, image, adUuid, uid, markerCoords, tags }) => {
     const { currentUser } = firebase.auth();
     const uploadImage = async(uri) => {
         const response = await fetch(uri);
@@ -136,14 +138,23 @@ export const adSave = ({ title, description, category, image, adUuid, uid }) => 
         const ref = firebase.storage().ref().child(`images/${adUuid}`);
         return ref.put(blob);
     };
-
+    
     return (dispatch) => {        
         const today = new Date();
         const publishDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
         uploadImage(image)
             .then(() => {
                 firebase.database().ref(`/users/${currentUser.uid}/ads/${uid}`)
-                .set({ title, description, category, image, publishDate, adUuid })
+                .set({ 
+                    title, 
+                    description, 
+                    category, 
+                    image, 
+                    publishDate, 
+                    adUuid, 
+                    location: markerCoords,
+                    tags 
+                })
                 .then(() => {
                     dispatch({ type: AD_SAVE_SUCCESS });
                     Actions.adToEditList();
@@ -241,7 +252,6 @@ export const cityNameChangedList = (text) => {
 };
 
 export const clearForm = () => {
-    console.log('weszlo');
     return {
         type: CLEAR_AD_FORM
     };

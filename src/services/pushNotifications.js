@@ -7,6 +7,7 @@ export default async (user) => {
       );
       let finalStatus = existingStatus;
     
+      console.log(existingStatus);
       if (existingStatus !== 'granted') {
        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
         finalStatus = status;
@@ -17,14 +18,12 @@ export default async (user) => {
       }
     
       var token = await Notifications.getExpoPushTokenAsync();
-
-      console.log(token);
+      console.log('weszlo');
       firebase.database().ref('/userInfo')
             .on('value', snapshot => {       
                 if (snapshot.val() != null) {                
                     Object.keys(snapshot.val()).forEach((key, index) => {
                         if (snapshot.val()[key].uid === user.uid) {
-                            console.log(`/userInfo/${Object.keys(snapshot.val())[index]}`);
                             firebase.database().ref(`/userInfo/${Object.keys(snapshot.val())[index]}`)
                             .update({ expoToken: token })
                             .catch((error) => console.log(error));

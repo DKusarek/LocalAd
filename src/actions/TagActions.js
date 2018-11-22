@@ -27,6 +27,7 @@ export const tagDelete = (tag) => {
 };
 
 export const tagsFetch = (tags) => {
+    console.log(tags);
     return {
         type: TAG_FETCH,
         payload: tags

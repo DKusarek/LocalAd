@@ -10,6 +10,7 @@ const LocationPanel = ({
     onChange50,
     onChange75,
     onChange100,
+    onChangeAll,
     value,
     onChangeText
 }) => {
@@ -17,11 +18,11 @@ const LocationPanel = ({
     return (
     <View>
         <PanelSection style={panelSectionStyle}>
-            <Text style={labelStyle}>Type Location</Text>
+            <Text style={labelStyle}>From your location</Text>
             <TextInput 
                 onChangeText={onChangeText}
                 value={value}
-                placeholder="Cracow"                    
+                placeholder="or type city name"                    
                 underlineColorAndroid='transparent'
                 style={inputStyle} 
             />
@@ -57,6 +58,10 @@ const LocationPanel = ({
                 onChange={onChange100}
             />
             <Text style={textStyle}>+100 km</Text>
+            <CheckBox 
+                onChange={onChangeAll}
+            />
+            <Text style={textStyle}>All</Text>
         </PanelSection>
     </View>
     );

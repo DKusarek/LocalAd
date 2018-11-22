@@ -87,7 +87,8 @@ export const signInUser = ({ email, password, password2, firstName, lastName }) 
             authUserFailed(dispatch, 'Given passwords are not identical');
         } else {
             firebase.auth().createUserWithEmailAndPassword(email, password)
-                .then(({ user }) => {                     
+                .then(({ user }) => {  
+                    console.log("krok");                   
                     pushNotifications(user);
                     firebase.database().ref('userInfo')
                     .push({ 

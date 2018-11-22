@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Picker } from 'react-native';
+import { View, Text, Picker, KeyboardAvoidingView } from 'react-native';
 import { connect } from 'react-redux';
 import { Location } from 'expo';
 import { Actions } from 'react-native-router-flux';
@@ -8,8 +8,7 @@ import { Button, Input, MultilineInput, PanelSection } from './common';
 import TagInput from './Tag/TagInput';
 
 class AdForm extends Component {
-    componentWillMount() {
-        console.log(this.props.image);
+    componentWillMount() {        
         if (this.props.image === null) {
             this.props.getDefaultImage();
         }     
@@ -21,12 +20,12 @@ class AdForm extends Component {
             });
         })
         .catch((error) => console.log(error));        
+        this.getTags();
     }
 
     getTags() {
-       if (this.props.tags !== undefined) {
-           console.log('weszlo');
-           this.props.tagsFetch(this.props.tags);
+       if (this.props.ad !== undefined && this.props.ad.tags !== undefined) {
+           this.props.tagsFetch(this.props.ad.tags);
        }
     }
 
@@ -89,6 +88,7 @@ class AdForm extends Component {
                     </Button>
                    
                 </PanelSection>
+                <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={0} />
             </View>
         );
     }
@@ -108,8 +108,8 @@ const styles = {
 
 
 const mapStateToProps = (state) => {
-    const { title, description, category, image, tags } = state.adForm;
-    console.log(tags);
+    const { title, description, category, image } = state.adForm;
+    const { tags } = state.tags;
     return { title, description, category, image, tags };
 };
 

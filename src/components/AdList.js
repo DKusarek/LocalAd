@@ -113,13 +113,11 @@ class AdList extends Component {
     }
 
     showOnlyForDistance(distance, cityName) {
-        if (cityName !== '') {
+        if (distance === 'All' ) {
+            this.props.adsChangedOrder(this.props.originalAds);
+        } else if (cityName !== '') {
             Location.geocodeAsync(this.props.cityName)
             .then(result => {
-                console.log(result);                
-                console.log(`${result[0].latitude - (Number(distance) / 110.574)} < ${this.props.originalAds[2].location.latitude} < ${result[0].latitude + (Number(distance) / 110.574)}`);
-                console.log(`${result[0].longitude - (Number(distance) / (111.320 * Math.cos(result[0].latitude)))} < ${this.props.originalAds[2].location.longitude} < ${result[0].longitude + (Number(distance) / (111.320 * Math.cos(result[0].latitude)))}`);
-                
                 this.props.adsChangedOrder(
                 this.props.originalAds.filter((ad) => 
                     ad.location !== undefined && ad.location.longitude !== undefined && ad.location.latitude !== undefined &&
@@ -130,7 +128,17 @@ class AdList extends Component {
             })
             .catch(error => console.log(error));            
         } else {
-            this.props.adsChangedOrder(this.props.originalAds);
+            Location.getCurrentPositionAsync()
+            .then((result) => {
+                this.props.adsChangedOrder(
+                    this.props.originalAds.filter((ad) => 
+                        ad.location !== undefined && ad.location.longitude !== undefined && ad.location.latitude !== undefined &&
+                        ad.location.latitude < result.coords.latitude + (Number(distance) / 110.574) &&
+                        ad.location.latitude >= result.coords.latitude - (Number(distance) / 110.574) &&
+                        ad.location.longitude < result.coords.longitude + (Number(distance) / (111.320 * Math.cos(result.coords.latitude))) &&
+                        ad.location.longitude >= result.coords.longitude - (Number(distance) / (111.320 * Math.cos(result.coords.latitude)))));
+            })
+            .catch((error) => console.log(error));    
         }
     }
 
@@ -138,7 +146,6 @@ class AdList extends Component {
         const ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
         });
-        console.log(searchText);
         if (searchText) {
             this.dataSource = ds.cloneWithRows(filteredAds);            
         } else {
@@ -191,6 +198,7 @@ class AdList extends Component {
                     onChange50={this.onLocationPanelChange.bind(this, '50')}
                     onChange75={this.onLocationPanelChange.bind(this, '75')}                    
                     onChange100={this.onLocationPanelChange.bind(this, '100')}
+                    onChangeAll={this.onLocationPanelChange.bind(this, 'All')}
                 />
             );
         }
