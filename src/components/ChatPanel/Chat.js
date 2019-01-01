@@ -24,7 +24,8 @@ class Chat extends Component {
                 <Header
                     backgroundColor='#1097D8'
                     centerComponent={{ 
-                        text: `${this.props.contactUser.firstName} ${this.props.contactUser.lastName}`,
+                        text: `${this.props.contactUser.firstName} 
+                            ${this.props.contactUser.lastName}`,
                         style: { color: '#fff' } }}
                 />
                 <GiftedChat

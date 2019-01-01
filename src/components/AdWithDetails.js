@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { View, Text, Image, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
+import { Actions } from 'react-native-router-flux';
 import { getPicture, updatePicture, contactWithAdvertaiser } from '../actions';
 import { Panel, PanelSection, Button, Inform } from './common';
-import { Actions } from 'react-native-router-flux';
 
 class AdWithDetails extends Component {
     state = { showModal: false, showModal2: false };

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { Panel, PanelSection, Input, Button, Spinner } from '../../components/common';
+import { Panel, PanelSection } from '../../components/common';
 
 class MainView extends Component {
     render() {

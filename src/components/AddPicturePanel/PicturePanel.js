@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, PermissionsAndroid } from 'react-native';
+import { Image } from 'react-native';
 import { connect } from 'react-redux';
 import { ImagePicker } from 'expo';
 import { Button, Panel, PanelSection } from './../common';
@@ -17,30 +17,15 @@ class PicturePanel extends Component {
         }
     };
 
-    takePhoto = async () => {
-        const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.CAMERA,
-            {
-              title: 'Cool Photo App Camera Permission',
-              message: 'Cool Photo App needs access to your camera ' +
-                         'so you can take awesome pictures.'
-            }
-          );
-          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            console.log('You can use the camera');
-            const result = await ImagePicker.launchCameraAsync({
-                allowsEditing: true,
-                aspect: [4, 3],
-            });
-        
-            if (!result.cancelled) {
-                this.props.addPicture({ image: result.uri });            
-            }
-          } else {
-            console.log('Camera permission denied');
-          }
+    takePhoto = async () => {                 
+        const result = await ImagePicker.launchCameraAsync({
+            allowsEditing: true,
+            aspect: [4, 3],
+        });
 
-        
+        if (!result.cancelled) {
+            this.props.addPicture({ image: result.uri });            
+        }                  
     }
     
     render() {

@@ -8,24 +8,35 @@ import { Button, Input, MultilineInput, PanelSection } from './common';
 import TagInput from './Tag/TagInput';
 
 class AdForm extends Component {
-    componentWillMount() {        
+    componentWillMount() { 
+        console.log(this.props);       
         if (this.props.image === null) {
             this.props.getDefaultImage();
-        }     
-        Location.getCurrentPositionAsync()
-        .then((result) => {
+        }
+        
+        if (this.props.ad !== undefined && this.props.ad.location !== undefined) {
             this.props.setMarkerCoords({
-                longitude: result.coords.longitude,
-                latitude: result.coords.latitude
+                longitude: this.props.ad.location.longitude,
+                latitude: this.props.ad.location.latitude
             });
-        })
-        .catch((error) => console.log(error));        
-        this.getTags();
+        } else {
+            Location.getCurrentPositionAsync()
+            .then((result) => {
+                this.props.setMarkerCoords({
+                    longitude: result.coords.longitude,
+                    latitude: result.coords.latitude
+                });
+            })
+            .catch((error) => console.log(error)); 
+        }
+        this.getTags();        
     }
 
     getTags() {
        if (this.props.ad !== undefined && this.props.ad.tags !== undefined) {
            this.props.tagsFetch(this.props.ad.tags);
+       } else {
+        this.props.tagsFetch([]);
        }
     }
 
@@ -114,4 +125,9 @@ const mapStateToProps = (state) => {
 };
 
 
-export default connect(mapStateToProps, { adUpdate, getDefaultImage, setMarkerCoords, tagsFetch })(AdForm);
+export default connect(mapStateToProps, { 
+    adUpdate, 
+    getDefaultImage, 
+    setMarkerCoords, 
+    tagsFetch 
+})(AdForm);

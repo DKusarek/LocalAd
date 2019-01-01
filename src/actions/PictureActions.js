@@ -22,7 +22,7 @@ export const getPicture = (adUuid) => {
         .then((url) => {
            dispatch({ type: ADS_FETCH_PICTURE_SUCCESS, payload: { url, adUuid } });
         })
-        .catch((error) => console.log(error.message));
+        .catch((error) => console.log(error));
     };
 };
 
@@ -34,7 +34,7 @@ export const updatePicture = (adUuid) => {
         .then((url) => {
            dispatch({ type: UPDATE_PICTURE, payload: { url, adUuid } });
         })
-        .catch((error) => console.log(error.message));
+        .catch((error) => console.log(error));
     };
 };
 
@@ -46,6 +46,6 @@ export const getDefaultImage = () => {
         .then((url) => {
            dispatch({ type: GET_DEFAULT_IMAGE, payload: url });
         })
-        .catch((error) => console.log(error.message));
+        .catch((error) => console.log(error));
     };
 };

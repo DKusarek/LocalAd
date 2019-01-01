@@ -113,18 +113,22 @@ class AdList extends Component {
     }
 
     showOnlyForDistance(distance, cityName) {
-        if (distance === 'All' ) {
+        if (distance === 'All') {
             this.props.adsChangedOrder(this.props.originalAds);
         } else if (cityName !== '') {
             Location.geocodeAsync(this.props.cityName)
             .then(result => {
                 this.props.adsChangedOrder(
                 this.props.originalAds.filter((ad) => 
-                    ad.location !== undefined && ad.location.longitude !== undefined && ad.location.latitude !== undefined &&
+                    ad.location !== undefined && 
+                    ad.location.longitude !== undefined && 
+                    ad.location.latitude !== undefined &&
                     ad.location.latitude < result[0].latitude + (Number(distance) / 110.574) &&
                     ad.location.latitude >= result[0].latitude - (Number(distance) / 110.574) &&
-                    ad.location.longitude < result[0].longitude + (Number(distance) / (111.320 * Math.cos(result[0].latitude))) &&
-                    ad.location.longitude >= result[0].longitude - (Number(distance) / (111.320 * Math.cos(result[0].latitude)))));
+                    ad.location.longitude < result[0].longitude + (Number(distance) / (111.320 * 
+                        Math.cos(result[0].latitude))) &&
+                    ad.location.longitude >= result[0].longitude - (Number(distance) / (111.320 * 
+                        Math.cos(result[0].latitude)))));
             })
             .catch(error => console.log(error));            
         } else {
@@ -132,11 +136,17 @@ class AdList extends Component {
             .then((result) => {
                 this.props.adsChangedOrder(
                     this.props.originalAds.filter((ad) => 
-                        ad.location !== undefined && ad.location.longitude !== undefined && ad.location.latitude !== undefined &&
-                        ad.location.latitude < result.coords.latitude + (Number(distance) / 110.574) &&
-                        ad.location.latitude >= result.coords.latitude - (Number(distance) / 110.574) &&
-                        ad.location.longitude < result.coords.longitude + (Number(distance) / (111.320 * Math.cos(result.coords.latitude))) &&
-                        ad.location.longitude >= result.coords.longitude - (Number(distance) / (111.320 * Math.cos(result.coords.latitude)))));
+                        ad.location !== undefined && 
+                        ad.location.longitude !== undefined && 
+                        ad.location.latitude !== undefined &&
+                        ad.location.latitude < result.coords.latitude + 
+                            (Number(distance) / 110.574) &&
+                        ad.location.latitude >= result.coords.latitude - 
+                            (Number(distance) / 110.574) &&
+                        ad.location.longitude < result.coords.longitude + 
+                            (Number(distance) / (111.320 * Math.cos(result.coords.latitude))) &&
+                        ad.location.longitude >= result.coords.longitude - 
+                            (Number(distance) / (111.320 * Math.cos(result.coords.latitude)))));
             })
             .catch((error) => console.log(error));    
         }

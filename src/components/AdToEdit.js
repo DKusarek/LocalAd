@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { getPicture, getDefaultImage } from '../actions';
+import { getPicture, getDefaultImage, clearCityName } from '../actions';
 import { Panel, PanelSection } from './common';
 
 class AdToEdit extends Component {
@@ -10,6 +10,7 @@ class AdToEdit extends Component {
     }
 
     onRowPress() {
+        this.props.clearCityName();
         Actions.adEdit({ ad: this.props.ad });
     }
 
@@ -44,4 +45,4 @@ const mapStateToProps = (state) => {
     return { image };
 };
 
-export default connect(mapStateToProps, { getPicture, getDefaultImage })(AdToEdit);
+export default connect(mapStateToProps, { getPicture, getDefaultImage, clearCityName })(AdToEdit);

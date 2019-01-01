@@ -50,5 +50,5 @@ const mapStateToProps = state => {
   };
 
   export default connect(mapStateToProps, { 
-      adsFetchEdit
+    adsFetchEdit
 })(AdToEditList);

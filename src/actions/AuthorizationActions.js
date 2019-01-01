@@ -70,7 +70,8 @@ export const loginUser = ({ email, password }) => {
     return (dispatch) => {
         dispatch({ type: LOGIN_USER });
         firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(user => {
+        .then(user => {            
+            pushNotifications(user);
             loginUserSuccess(dispatch, user);
         })
         .catch((error) => {
@@ -88,7 +89,6 @@ export const signInUser = ({ email, password, password2, firstName, lastName }) 
         } else {
             firebase.auth().createUserWithEmailAndPassword(email, password)
                 .then(({ user }) => {  
-                    console.log("krok");                   
                     pushNotifications(user);
                     firebase.database().ref('userInfo')
                     .push({ 
@@ -119,10 +119,6 @@ const authUserFailed = (dispatch, message) => {
 const loginUserSuccess = (dispatch, user) => {
     dispatch({ type: LOGIN_USER_SUCCESS, payload: user });
     Actions.main();
-};
-
-const signInUserSuccess = (dispatch) => {  
-    dispatch({ type: SIGN_IN_USER_SUCCESS });
 };
 
 export const changePassword = ({ password, password2, password3 }) => {

@@ -53,3 +53,4 @@ export const OPEN_CHAT = 'open_chat';
 export const SET_MARKER_LOCATION = 'set_marker_location';
 export const CITY_NAME_CHANGED = 'city_name_changed';
 export const UPDATE_MAP_REGION = 'update_map_region';
+export const CLEAR_CITY_NAME = 'clear_city_name';

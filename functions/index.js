@@ -7,16 +7,11 @@ admin.initializeApp();
 exports.sendPushNotifications = functions.database.ref('/notifications')
 .onWrite((change, context) => {
     var messages = [];
-    console.log(change);
-    console.log(context);
     return admin.database().ref('/userInfo').once('value').then((snapshot)=>{
         var expoToken;
-        console.log(snapshot);
-        console.log('snapshot');
-        console.log(snapshot.val());
         snapshot.forEach(childSnapshot => {
-            console.log(childSnapshot);
             expoToken = childSnapshot.val().expoToken;
+
             if(expoToken){
                 messages.push({
                     to: expoToken,
@@ -27,16 +22,19 @@ exports.sendPushNotifications = functions.database.ref('/notifications')
                 });
             }
         });
-        console.log(messages);
         return Promise.all(messages);
     }).then((messages) => {
-        return fetch('https://localad-53d66.firebaseio.com/users/push-token', {
+        return fetch('https://exp.host/--/api/v2/push/send', {
             method: 'POST',
             headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
+                'accept': 'application/json',
+                'accept-encoding': 'gzip, deflate',
+                'content-type': 'application/json'
             },
             body: JSON.stringify(messages),
           });
         })
+        .catch((error)=>{
+            console.log(error);
+        });
 });

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
 import { connect } from 'react-redux';
 import { ListView } from 'react-native';
 import { Actions } from 'react-native-router-flux';

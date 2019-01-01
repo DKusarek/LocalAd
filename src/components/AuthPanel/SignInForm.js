@@ -165,7 +165,15 @@ const styles = {
 };
 
 const mapStateToProps = (state) => {
-    const { email, password, password2, error, signInSuccess, loadingSignIn, firstName, lastName } = 
+    const { 
+        email, 
+        password, 
+        password2, 
+        error, 
+        signInSuccess, 
+        loadingSignIn, 
+        firstName, 
+        lastName } = 
     state.authorization;
     return {
         email,

@@ -26,7 +26,7 @@ export const contactWithAdvertaiser = (owner) => {
 };
 
 export const addMessages = (message, userUid) => {
-    const { currentUser } = firebase.auth();   
+    const { currentUser } = firebase.auth(); 
     message[0].user._id = currentUser.uid;
     message[0].createdAt = new Date();
     
@@ -36,7 +36,8 @@ export const addMessages = (message, userUid) => {
                 if (snapshot.val() != null) {                
                     Object.keys(snapshot.val()).forEach((key) => {
                         if (snapshot.val()[key].uid === currentUser.uid) {
-                            message[0].user.name = `${snapshot.val()[key].firstName} ${snapshot.val()[key].lastName}`;
+                            message[0].user.name = 
+                            `${snapshot.val()[key].firstName} ${snapshot.val()[key].lastName}`;
                         }
                     });
                 }
@@ -85,8 +86,10 @@ export const fetchRecentUsers = () => {
                         Object.keys(messages.val()[key0]).forEach((key1, index1) => {    
                             userUids.push(Object.keys(messages.val()[key0])[index1]);
                         });
-                    } else if (Object.keys(messages.val()[key0])[index] === currentUser.uid) {                            
-                            userUids.push(Object.keys(messages.val())[index]);                          
+                    } else if (Object.keys(messages.val()[key0])[index] 
+                            === currentUser.uid) {                            
+                            userUids.push(Object.keys(
+                                messages.val())[index]);                          
                     }                 
                 });
             }

@@ -1,6 +1,6 @@
 import React from 'react';
-import { SearchBar, Icon } from 'react-native-elements';
-import { TextInput, View, Text, Button } from 'react-native';
+import { Icon } from 'react-native-elements';
+import { TextInput, View, Text } from 'react-native';
 
 const SearchInput = ({ 
     label, 
@@ -27,7 +27,6 @@ const SearchInput = ({
                 style={buttonStyle}
                 name='arrow-bold-right'
                 color='#00aced' 
-                onPress={() => console.log('icon')}
             />
         </View>
     );

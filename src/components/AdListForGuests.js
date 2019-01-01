@@ -8,7 +8,8 @@ import {
     sortByChanged, 
     adsChangedOrder, 
     showCategoryPanel,
-    sortByCategoryChanged
+    sortByCategoryChanged,
+    searchAd
 } from '../actions';
 import Ad from './Ad';
 import { CategoryPanel } from './common';
@@ -92,12 +93,29 @@ class AdList extends Component {
         }
     }
 
-    createDataSource({ ads }) {
+    createDataSource({ ads, filteredAds, searchText }) {
         const ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
         });
+        if (searchText) {
+            this.dataSource = ds.cloneWithRows(filteredAds);            
+        } else {
+            this.dataSource = ds.cloneWithRows(ads);  
+        }
+    }
 
-        this.dataSource = ds.cloneWithRows(ads);
+    handleSearch(text) {
+        var adTitles = [];
+        var adTags = [];
+        this.props.ads.forEach(element => {
+            adTitles.push(element.title);
+            if (element.tags !== undefined) {
+                element.tags.forEach(tag => {
+                    adTags.push(tag);
+                });
+            }
+        });
+        this.props.searchAd(text, adTitles, adTags);
     }
 
     renderCategoryPanel() {
@@ -127,6 +145,7 @@ class AdList extends Component {
             <View style={{ flex: 1 }}>
                 <View style={mainViewStyle}>
                     <SearchBar
+                        onChangeText={this.handleSearch.bind(this)}
                         showLoading
                         lightTheme
                         inputStyle={inputStyle}
@@ -201,8 +220,12 @@ const mapStateToProps = state => {
     const originalAds = _.map(state.ads.originalAds, (val, uid) => {
         return { ...val, uid };
       });
+    const filteredAds = _.map(state.ads.filteredAds, (val, uid) => {
+        return { ...val, uid };
+    });
+    const searchText = state.ads.searchText;
     const { categoryPanel, sortBy, selectedCategory } = state.sortOrder;
-    return { ads, originalAds, sortBy, categoryPanel, selectedCategory }; 
+    return { ads, originalAds, sortBy, categoryPanel, searchText, filteredAds, selectedCategory }; 
   };
 
   export default connect(mapStateToProps, { 
@@ -210,5 +233,6 @@ const mapStateToProps = state => {
       sortByChanged, 
       adsChangedOrder, 
       showCategoryPanel,
-      sortByCategoryChanged
+      sortByCategoryChanged,
+      searchAd
 })(AdList);

@@ -1,7 +1,8 @@
 import { 
     SET_MARKER_LOCATION,
     CITY_NAME_CHANGED,
-    UPDATE_MAP_REGION
+    UPDATE_MAP_REGION,
+    CLEAR_CITY_NAME
 } from './types';
 
 export const setMarkerCoords = (coords) => {
@@ -25,5 +26,11 @@ export const updateMapRegion = (longitude, latitude) => {
             longitude,
             latitude
         }
+    };
+};
+
+export const clearCityName = () => {
+    return {
+        type: CLEAR_CITY_NAME
     };
 };

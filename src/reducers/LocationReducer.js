@@ -1,7 +1,8 @@
 import {
     SET_MARKER_LOCATION,
     CITY_NAME_CHANGED,
-    UPDATE_MAP_REGION
+    UPDATE_MAP_REGION,
+    CLEAR_CITY_NAME
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -33,6 +34,8 @@ export default (state = INITIAL_STATE, action) => {
                 longitudeDelta: state.mapRegion.longitudeDelta
             };
             return { ...state, mapRegion: newMapRegion };
+        case CLEAR_CITY_NAME:
+            return { ...state, cityName: '' };
         default:
             return state;
     }

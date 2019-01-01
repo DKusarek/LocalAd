@@ -1,13 +1,14 @@
 import { Permissions, Notifications } from 'expo';
+import { Alert } from 'react-native';
 import firebase from 'firebase';
 
 export default async (user) => {
+    var token;
     const { status: existingStatus } = await Permissions.getAsync(
         Permissions.NOTIFICATIONS
       );
       let finalStatus = existingStatus;
     
-      console.log(existingStatus);
       if (existingStatus !== 'granted') {
        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
         finalStatus = status;
@@ -17,16 +18,35 @@ export default async (user) => {
         return;
       }
     
-      var token = await Notifications.getExpoPushTokenAsync();
-      console.log('weszlo');
+      token = await Notifications.getExpoPushTokenAsync();
+      Alert.alert(
+        'New Push Notification',
+        token,
+        [{ text: 'Ok.' }]
+      );
       firebase.database().ref('/userInfo')
             .on('value', snapshot => {       
                 if (snapshot.val() != null) {                
                     Object.keys(snapshot.val()).forEach((key, index) => {
                         if (snapshot.val()[key].uid === user.uid) {
-                            firebase.database().ref(`/userInfo/${Object.keys(snapshot.val())[index]}`)
+                            firebase.database()
+                            .ref(`/userInfo/${Object.keys(snapshot.val())[index]}`)
                             .update({ expoToken: token })
-                            .catch((error) => console.log(error));
+                            .then(() => {
+                                Alert.alert(
+                                    'New Push Notification',
+                                    'weszlo',
+                                    [{ text: 'Ok.' }]
+                                  );
+                            })
+                           // .catch((error) => console.log(error));
+                           .catch(error => {
+                            Alert.alert(
+                                'New Push Notification',
+                                error,
+                                [{ text: 'Ok.' }]
+                              );
+                           });
                         }
                     });
                 }

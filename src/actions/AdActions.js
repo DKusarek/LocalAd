@@ -31,25 +31,23 @@ export const adUpdate = ({ prop, value }) => {
 export const adCreate = ({ title, description, category, image, markerCoords, tags }) => {
     const { currentUser } = firebase.auth();
     const adUuid = uuid.v1();
-    const uploadImage = async(uri) => {
+    
+    const uploadData = async(uri, dispatch, publishDate) => {
         const response = await fetch(uri);
         const blob = await response.blob();
         const ref = firebase.storage().ref().child(`images/${adUuid}`);
-        return ref.put(blob);
-    };
-
-    return (dispatch) => { 
-        const today = new Date();
-        const publishDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-
-        uploadImage(image)
-            .then(() => {
+        const uploadTask = ref.put(blob);
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+            () => {}, //snaphots during uploading
+            (error) => { console.log(error); }, //errors
+            () => {
+            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
                 firebase.database().ref(`/users/${currentUser.uid}/ads`)
                 .push({ 
                     title, 
                     description, 
                     category, 
-                    image, 
+                    image: downloadURL, 
                     publishDate, 
                     adUuid, 
                     owner: currentUser.uid,
@@ -60,9 +58,15 @@ export const adCreate = ({ title, description, category, image, markerCoords, ta
                     dispatch({ type: AD_CREATE });
                     Actions.adList();
                 })
-                .catch((error) => console.log(error.message));    
-            })
-            .catch((error) => console.log(error.message));    
+                .catch((error) => console.log(error)); 
+            });
+        });
+    };
+
+    return (dispatch) => { 
+        const today = new Date();
+        const publishDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+        uploadData(image, dispatch, publishDate);        
         };
 };
 
@@ -72,8 +76,7 @@ export const adsFetchEdit = () => {
         firebase.database().ref(`/users/${currentUser.uid}/ads`)
         .on('value', snapshot => {
             dispatch({ type: ADS_TO_EDIT_FETCH_SUCCESS, payload: snapshot.val() });
-        })
-        .catch((error) => console.log(error.message));    
+        });
     };
 };
 
@@ -107,15 +110,21 @@ export const searchAd = (text, adTitles, adTags) => {
                     Object.keys(snapshot.val()).forEach((key) => {
                         Object.keys(snapshot.val()[key]).forEach((insideKey) => {
                             Object.keys(snapshot.val()[key][insideKey]).forEach((moreInsideKey) => {
-                                if (snapshot.val()[key][insideKey][moreInsideKey].title.includes(text) && 
-                                adTitles.includes(snapshot.val()[key][insideKey][moreInsideKey].title)) {
-                                    ads[moreInsideKey] = (snapshot.val()[key][insideKey][moreInsideKey]);
+                                if (snapshot.val()[key][insideKey][moreInsideKey]
+                                    .title.includes(text) && 
+                                    adTitles.includes(snapshot.val()[key][insideKey][moreInsideKey]
+                                    .title)) {
+                                        ads[moreInsideKey] = 
+                                            (snapshot.val()[key][insideKey][moreInsideKey]);
                                 }
-                                if (snapshot.val()[key][insideKey][moreInsideKey].tags !== undefined) { 
-                                    snapshot.val()[key][insideKey][moreInsideKey].tags.forEach(tag => {
-                                        if (tag.includes(text) && adTags.includes(tag)) {
-                                            ads[moreInsideKey] = (snapshot.val()[key][insideKey][moreInsideKey]);
-                                        }
+                                if (snapshot.val()[key][insideKey][moreInsideKey]
+                                    .tags !== undefined) { 
+                                    snapshot.val()[key][insideKey][moreInsideKey]
+                                        .tags.forEach(tag => {
+                                            if (tag.includes(text) && adTags.includes(tag)) {
+                                                ads[moreInsideKey] = 
+                                                    (snapshot.val()[key][insideKey][moreInsideKey]);
+                                            }
                                     });
                                 }
                             });
@@ -130,42 +139,43 @@ export const searchAd = (text, adTitles, adTags) => {
     };
 };
 
-export const adSave = ({ title, description, category, image, adUuid, uid, markerCoords, tags }) => {
+export const adSave = 
+({ title, description, category, image, adUuid, uid, markerCoords, tags }) => {    
     const { currentUser } = firebase.auth();
-    const uploadImage = async(uri) => {
+    const uploadData = async(uri, dispatch, publishDate) => {
         const response = await fetch(uri);
         const blob = await response.blob();
         const ref = firebase.storage().ref().child(`images/${adUuid}`);
-        return ref.put(blob);
-    };
-    
-    return (dispatch) => {        
-        const today = new Date();
-        const publishDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-        uploadImage(image)
-            .then(() => {
+        const uploadTask = ref.put(blob);
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+            () => {}, //snaphots during uploading
+            (error) => { console.log(error); }, //errors
+            () => {
+            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
                 firebase.database().ref(`/users/${currentUser.uid}/ads/${uid}`)
                 .set({ 
                     title, 
                     description, 
                     category, 
-                    image, 
+                    image: downloadURL, 
                     publishDate, 
                     adUuid, 
+                    owner: currentUser.uid,
                     location: markerCoords,
-                    tags 
+                    tags
                 })
-                .then(() => {
+                .then(() => {            
                     dispatch({ type: AD_SAVE_SUCCESS });
                     Actions.adToEditList();
                 })
-                .catch((error) => {
-                    console.log(error);
-                });
-            })
-            .catch((error) => {
-                console.log(error);
+                .catch((error) => console.log(error)); 
             });
+        });        
+    };    
+    return (dispatch) => {        
+        const today = new Date();
+        const publishDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+        uploadData(image, dispatch, publishDate);          
     };
 };
 

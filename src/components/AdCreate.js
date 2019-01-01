@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { adUpdate, adCreate, clearForm } from '../actions';
+import { adUpdate, adCreate, clearForm, clearCityName } from '../actions';
 import { Panel, PanelSection, Button } from './common';
 import AdForm from './AdForm';
 
 class AdCreate extends Component {
     componentDidMount() {
+        this.props.clearCityName();
         this.props.clearForm();
     }
 
@@ -39,8 +40,9 @@ const mapStateToProps = (state) => {
     const { title, description, category, image } = state.adForm;
     const { markerCoords } = state.location;
     const { tags } = state.tags;
-    return { title, description, category, image, markerCoords, tags };
+    const create = true;
+    return { title, description, category, image, markerCoords, tags, create };
 };
 
 export default connect(mapStateToProps,
-    { adUpdate, adCreate, clearForm })(AdCreate);
+    { adUpdate, adCreate, clearForm, clearCityName })(AdCreate);
