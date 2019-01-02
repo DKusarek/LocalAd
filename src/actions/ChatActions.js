@@ -54,23 +54,20 @@ export const addMessages = (message, userUid) => {
 export const fetchMessges = (userUid) => {
     const { currentUser } = firebase.auth();
     return (dispatch) => {
+        var data = [];
         dispatch({ type: FETCH_MESSAGES });
         firebase.database().ref(`/messages/${currentUser.uid}/${userUid}`)
             .orderByKey()
             .limitToLast(30)
-            .on('value', (snapshot) => {
-                if (snapshot.val() === null) {
-                    firebase.database().ref(`/messages/${userUid}/${currentUser.uid}`)
-                    .orderByKey()
-                    .limitToLast(30)
-                    .on('value', (snapshot1) => {
-                        const data = snapshot1.val() || [];
-                        handleData(dispatch, data);
-                    });
-                }
-                const data = snapshot.val() || [];
-                handleData(dispatch, data);
-            });
+            .on('value', (snapshot) => {                
+                firebase.database().ref(`/messages/${userUid}/${currentUser.uid}`)
+                .orderByKey()
+                .limitToLast(30)
+                .on('value', (snapshot1) => {
+                    data = { ...snapshot1.val(), ...snapshot.val() };
+                    handleData(dispatch, data);
+                });          
+             });
     };
 };
 
