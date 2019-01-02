@@ -3,6 +3,10 @@
     "rules": {
         "react/require-extension": "off",
         "import/no-unresolved": "off",
-        "arrow-body-style": "off"
+        "arrow-body-style": "off",
+        "no-var": "off",
+        "global-require": "off",
+        "no-nested-ternary": "off",
+        "no-case-declarations": "off"
       }
 }

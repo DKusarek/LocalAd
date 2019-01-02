@@ -9,7 +9,6 @@ class PicturePanel extends Component {
     pickImageFromGalery = async () => {
         const result = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
-            aspect: [4, 3],
         });
     
         if (!result.cancelled) {
@@ -20,7 +19,6 @@ class PicturePanel extends Component {
     takePhoto = async () => {                 
         const result = await ImagePicker.launchCameraAsync({
             allowsEditing: true,
-            aspect: [4, 3],
         });
 
         if (!result.cancelled) {
@@ -35,7 +33,7 @@ class PicturePanel extends Component {
             <Panel>
                 <PanelSection>
                 {image &&
-          <Image source={{ uri: image }} style={{ width: 340, height: 200 }} />}
+          <Image source={{ uri: image }} style={{ width: 390, height: 292 }} />}
                 </PanelSection>
                 <PanelSection>
                     <Button onPress={this.pickImageFromGalery}>

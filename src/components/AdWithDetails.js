@@ -48,7 +48,7 @@ class AdWithDetails extends Component {
                 });
             if (obj != null) {
             return (
-               <Image source={{ uri: obj.url }} style={{ width: 340, height: 262 }} />
+               <Image source={{ uri: obj.url }} style={{ width: 390, height: 292 }} />
             );
             }
         }  

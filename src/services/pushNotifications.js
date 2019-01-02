@@ -1,5 +1,4 @@
 import { Permissions, Notifications } from 'expo';
-import { Alert } from 'react-native';
 import firebase from 'firebase';
 
 export default async (user) => {
@@ -19,11 +18,7 @@ export default async (user) => {
       }
     
       token = await Notifications.getExpoPushTokenAsync();
-      Alert.alert(
-        'New Push Notification',
-        token,
-        [{ text: 'Ok.' }]
-      );
+     
       firebase.database().ref('/userInfo')
             .on('value', snapshot => {       
                 if (snapshot.val() != null) {                
@@ -32,20 +27,10 @@ export default async (user) => {
                             firebase.database()
                             .ref(`/userInfo/${Object.keys(snapshot.val())[index]}`)
                             .update({ expoToken: token })
-                            .then(() => {
-                                Alert.alert(
-                                    'New Push Notification',
-                                    'weszlo',
-                                    [{ text: 'Ok.' }]
-                                  );
-                            })
+                            
                            // .catch((error) => console.log(error));
                            .catch(error => {
-                            Alert.alert(
-                                'New Push Notification',
-                                error,
-                                [{ text: 'Ok.' }]
-                              );
+                            console.log(error)
                            });
                         }
                     });
