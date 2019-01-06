@@ -8,8 +8,7 @@ import { Button, Input, MultilineInput, PanelSection } from './common';
 import TagInput from './Tag/TagInput';
 
 class AdForm extends Component {
-    componentWillMount() { 
-        console.log(this.props);       
+    componentWillMount() {       
         if (this.props.image === null) {
             this.props.getDefaultImage();
         }

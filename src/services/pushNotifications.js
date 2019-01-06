@@ -1,10 +1,8 @@
 import { Permissions, Notifications } from 'expo';
 import firebase from 'firebase';
-import { Alert } from 'react-native';
 
 export default async (user) => {
     var token;
-    console.log(user.user);
     const { status: existingStatus } = await Permissions.getAsync(
         Permissions.NOTIFICATIONS
       );
@@ -20,11 +18,7 @@ export default async (user) => {
       }
     
       token = await Notifications.getExpoPushTokenAsync();
-      Alert.alert(	 
-        'New Push Notification',	
-       token,	
-       [{ text: 'Ok.' }]	
-     );
+     
       firebase.database().ref('/userInfo')
             .on('value', snapshot => {                 
                 if (snapshot.val() != null) {                

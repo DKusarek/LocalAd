@@ -6,7 +6,7 @@ import { emailChanged, passwordChanged, loginUser, quickLoginIn } from '../../ac
 
 class LoginForm extends Component {
     componentWillMount() {
-        this.props.quickLoginIn();
+        //this.props.quickLoginIn();
     }
     onEmailChange(text) {
         this.props.emailChanged(text);

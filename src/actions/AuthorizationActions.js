@@ -89,7 +89,6 @@ export const signInUser = ({ email, password, password2, firstName, lastName }) 
         } else {
             firebase.auth().createUserWithEmailAndPassword(email, password)
                 .then(({ user }) => {  
-                    pushNotifications(user);
                     firebase.database().ref('userInfo')
                     .push({ 
                         firstName, 

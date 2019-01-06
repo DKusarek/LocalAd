@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, TextInput, Dimensions, Text } from 'react-native';
-import { Location, MapView } from 'expo';
+import { Platform, View, TextInput, Dimensions, Text } from 'react-native';
+import { Constants, Location, MapView } from 'expo';
 import { connect } from 'react-redux';
 import { setMarkerCoords, cityNameChanged, updateMapRegion } from '../../actions';
 import { Button, Panel, PanelSection, Inform } from './../common';
@@ -11,12 +11,16 @@ class LocationPanel extends Component {
     state = { showModal: false };
 
     componentDidMount() {
+        if (Platform.OS === 'android' && !Constants.isDevice) {
+            console.log('Oops, this will not work on Sketch in an ' +
+            'Android emulator. Try it on your device!');
+        } 
         this.props.updateMapRegion(
             this.props.markerCoords.longitude, 
             this.props.markerCoords.latitude
         );
     }
-
+      
     onCityNameChange(text) {
         this.props.cityNameChanged(text);
     }
