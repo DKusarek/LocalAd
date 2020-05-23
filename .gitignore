@@ -17,3 +17,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+App.js
+app.json
+firebase.json
+google-service.json
+package-lock.json
+package.json
+yarn.lock
